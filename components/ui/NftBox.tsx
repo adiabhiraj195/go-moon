@@ -4,21 +4,21 @@ import { ethers } from "ethers";
 import { nftAbi } from "@/constants/BaseNft";
 import { useEffect, useState } from "react";
 import { ABI, CONTRACT_ADDRESS } from "@/constants/contractConfig";
+import BuyButton from "./Buy-nft-button";
 
 interface NFTCardProps {
     tokenId: string;
     ownerAddress: string;
-    name: string;
     nftAddress: string;
     price: string;
 }
 
-const NFTCard: React.FC<NFTCardProps> = ({ tokenId, ownerAddress, name, nftAddress, price }) => {
+const NFTCard: React.FC<NFTCardProps> = ({ tokenId, ownerAddress, nftAddress, price }) => {
     const [image, setImage] = useState("");
-    const { provider, account } = useWallet();
+    const [nftMetadata, setNftMetadata] = useState<any>({});
+    const { account, signer } = useWallet();
     // console.log(account, ownerAddress)
     const getTokenUri = async (tokenId: string) => {
-        const signer = provider?.getSigner();
 
         const nftContract = new ethers.Contract(
             nftAddress,
@@ -28,6 +28,9 @@ const NFTCard: React.FC<NFTCardProps> = ({ tokenId, ownerAddress, name, nftAddre
 
         const tx = await nftContract.tokenURI(tokenId);
         // await tx.wait();
+        // console.log(tx)
+        // setNftMetadata(JSON.parse(tx));
+        // console.log(nftMetadata, " metadata")
         return tx
     }
 
@@ -35,14 +38,14 @@ const NFTCard: React.FC<NFTCardProps> = ({ tokenId, ownerAddress, name, nftAddre
         const tokenUri = await getTokenUri(tokenId);
 
         if (tokenUri) {
-            const requestURL = tokenUri.replace("ipfs://", "https://ipfs.io/ipfs/")
-            setImage(requestURL)
-
+            const requestURL = JSON.parse(tokenUri);
+            setNftMetadata(requestURL);
+            setImage(requestURL.image);
         }
     }
 
     const cancleListing = async () => {
-        const signer = provider?.getSigner();
+        // const signer = provider?.getSigner();
 
         const marketContract = new ethers.Contract(
             CONTRACT_ADDRESS,
@@ -56,23 +59,28 @@ const NFTCard: React.FC<NFTCardProps> = ({ tokenId, ownerAddress, name, nftAddre
     }
 
     useEffect(() => {
+        // getTokenUri(tokenId)
+        // setNftMetadata(await metadata);
         updateCard();
     }, [])
     // console.log(getTokenUri());
     return (
         <div className="max-w-sm rounded overflow-hidden shadow-lg border border-gray-300 bg-black">
             {/* NFT Image */}
-            {/* <img className="w-full" src={""} alt={`NFT ${name}`} /> */}
-            <p>{image}</p>
+            <img className="w-full" src={nftMetadata.image} alt={`NFT ${nftMetadata.name}`} />
+            {/* <p>{image}</p> */}
 
             {/* NFT Details */}
             <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2">{name || `NFT #${tokenId}`}</div>
+                <div className="font-bold text-xl mb-2">{nftMetadata.name || `NFT #${tokenId}`}</div>
                 <p className="text-gray-700 text-base">
                     <strong>Token ID:</strong> {tokenId}
                 </p>
                 <p className="text-gray-700 text-base">
                     <strong>Owner:</strong> {ownerAddress.slice(0, 6)}...{ownerAddress.slice(-4)}
+                </p>
+                <p className="text-gray-700 text-base">
+                    <strong>Price:</strong> {ethers.formatEther(price)}
                 </p>
             </div>
             <div className="px-6 pt-4 pb-2">
@@ -85,6 +93,12 @@ const NFTCard: React.FC<NFTCardProps> = ({ tokenId, ownerAddress, name, nftAddre
                     disabled={ownerAddress.toLocaleLowerCase() !== account?.toLocaleLowerCase()} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                     cancle listing
                 </button>
+                <BuyButton
+                    nftPrice={ethers.formatEther(price)}
+                    nftAddress={nftAddress}
+                    tokenId={tokenId}
+                    ownerAddress={ownerAddress}
+                />
 
             </div>
         </div>

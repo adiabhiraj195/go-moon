@@ -14,27 +14,30 @@ export default function Home() {
 
   return (
     <div className="">
-      <h1 className="font-bold text-purple-300 bg-yellow-500">hellow</h1>
-      {listedNfts?.activeItems.map((item: {
-        buyer: string
-        id: string
-        nftAddress: string
-        price: string
-        seller: string
-        tokenId: string
-      }) => {
-        return (
-          <NFTCard
-            key={item.id}
-            tokenId={item.tokenId}
-            ownerAddress={item.seller}
-            name={"item name"}
-            nftAddress={item.nftAddress}
-            price={item.price}
-          />
-        )
-      })
-      }
+      <h1 className="font-bold text-center text-4xl ">All NFTs</h1>
+
+      <div className="flex justify-center p-4">
+
+        {listedNfts?.activeItems.map((item: {
+          buyer: string
+          id: string
+          nftAddress: string
+          price: string
+          seller: string
+          tokenId: string
+        }) => {
+          return (
+            <NFTCard
+              key={item.id}
+              tokenId={item.tokenId}
+              ownerAddress={item.seller}
+              nftAddress={item.nftAddress}
+              price={item.price}
+            />
+          )
+        })
+        }
+      </div>
     </div>
   );
 }

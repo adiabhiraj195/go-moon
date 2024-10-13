@@ -1,5 +1,5 @@
-// export const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-export const CONTRACT_ADDRESS = "0x407a6Ef8Bef858Ea32B0b27F6d7faC237fd83c4e";
+// export const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // not verify and not on graph
+export const CONTRACT_ADDRESS = "0x407a6Ef8Bef858Ea32B0b27F6d7faC237fd83c4e";  //verified and on graph
 
 export const ABI = [
     {

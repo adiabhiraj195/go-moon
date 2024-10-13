@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { ethers } from 'ethers';
 import { useWallet } from '@/contexts/WalletProvide';
+import { apeWorldAbi } from '@/constants/ApeWorld';
 
 interface SellNFTFormProps {
     marketplaceAddress: string;
@@ -10,14 +11,15 @@ interface SellNFTFormProps {
 }
 
 const SellNFTForm: React.FC<SellNFTFormProps> = ({ marketplaceAddress, marketplaceAbi }) => {
-    const [nftAddress, setNftAddress] = useState('');
-    const [tokenId, setTokenId] = useState('');
-    const [price, setPrice] = useState('');
+    const [nftAddress, setNftAddress] = useState("");
+    const [tokenId, setTokenId] = useState("");
+    const [price, setPrice] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-    const { isConnected, provider } = useWallet();
+    const { isConnected, provider, account, signer } = useWallet();
+    // console.log(account, " account")
 
     // Function to handle form submission
     const handleSubmit = async (e: React.FormEvent) => {
@@ -33,15 +35,29 @@ const SellNFTForm: React.FC<SellNFTFormProps> = ({ marketplaceAddress, marketpla
                 return;
             }
 
-            const signer = provider?.getSigner();
+            // const signer = provider?.getSigner();
 
             const marketplaceContract = new ethers.Contract(
                 marketplaceAddress,
                 marketplaceAbi,
                 signer
             );
+            const nftContract = new ethers.Contract(
+                nftAddress,
+                apeWorldAbi,
+                signer
+            );
 
-            const priceInWei = ethers.utils.parseEther(price);
+            const owner = await nftContract.ownerOf(tokenId);
+            console.log(`Owner of tokenId ${tokenId}:`, owner);
+            if (owner.toLowerCase() !== account?.toLowerCase()) {
+                throw new Error(`Signer does not own tokenId ${tokenId}`);
+            }
+
+            const approvalTx = await nftContract.approve(marketplaceAddress, tokenId);
+            await approvalTx.wait();
+
+            const priceInWei = ethers.parseEther(price);
 
             const tx = await marketplaceContract.listItem(nftAddress, tokenId, priceInWei);
             await tx.wait();
