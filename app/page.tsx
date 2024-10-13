@@ -6,6 +6,7 @@
 import GET_ACTIVE_ITEMS from "@/constants/subgraphQuerys";
 import { useQuery } from "@apollo/client";
 import NFTCard from "@/components/ui/NftBox";
+import Link from "next/link";
 
 export default function Home() {
 
@@ -27,13 +28,15 @@ export default function Home() {
           tokenId: string
         }) => {
           return (
-            <NFTCard
-              key={item.id}
-              tokenId={item.tokenId}
-              ownerAddress={item.seller}
-              nftAddress={item.nftAddress}
-              price={item.price}
-            />
+            <Link href={`/nft/${item.id}`}>
+              <NFTCard
+                key={item.id}
+                tokenId={item.tokenId}
+                ownerAddress={item.seller}
+                nftAddress={item.nftAddress}
+                price={item.price}
+              />
+            </Link>
           )
         })
         }

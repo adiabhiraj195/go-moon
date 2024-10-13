@@ -74,7 +74,7 @@ const NFTCard: React.FC<NFTCardProps> = ({ tokenId, ownerAddress, nftAddress, pr
             <div className="px-6 py-4">
                 <div className="font-bold text-xl mb-2">{nftMetadata.name || `NFT #${tokenId}`}</div>
                 <p className="text-gray-700 text-base">
-                    <strong>Token ID:</strong> {tokenId}
+                    <strong>Token ID:</strong> #{tokenId}
                 </p>
                 <p className="text-gray-700 text-base">
                     <strong>Owner:</strong> {ownerAddress.slice(0, 6)}...{ownerAddress.slice(-4)}
@@ -83,24 +83,7 @@ const NFTCard: React.FC<NFTCardProps> = ({ tokenId, ownerAddress, nftAddress, pr
                     <strong>Price:</strong> {ethers.formatEther(price)}
                 </p>
             </div>
-            <div className="px-6 pt-4 pb-2">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    View Details
-                </button>
 
-                <button
-                    onClick={cancleListing}
-                    disabled={ownerAddress.toLocaleLowerCase() !== account?.toLocaleLowerCase()} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                    cancle listing
-                </button>
-                <BuyButton
-                    nftPrice={ethers.formatEther(price)}
-                    nftAddress={nftAddress}
-                    tokenId={tokenId}
-                    ownerAddress={ownerAddress}
-                />
-
-            </div>
         </div>
     );
 };
