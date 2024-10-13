@@ -1,8 +1,5 @@
 "use client"
-// import { ethers } from "ethers";
-// import { CONTRACT_ADDRESS, ABI } from "@/constants/contractConfig";
-// import { nftAbi } from "@/constants/BaseNft";
-// import { useWallet } from "@/contexts/WalletProvide";
+
 import GET_ACTIVE_ITEMS from "@/constants/subgraphQuerys";
 import { useQuery } from "@apollo/client";
 import NFTCard from "@/components/ui/NftBox";

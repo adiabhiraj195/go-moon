@@ -4,11 +4,10 @@ import { useParams } from "next/navigation"
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { useWallet } from "@/contexts/WalletProvide";
-import { nftAbi } from "@/constants/BaseNft";
 import { useQuery } from "@apollo/client";
 import GET_ACTIVE_ITEMS from "@/constants/subgraphQuerys";
 import BuyButton from "@/components/ui/Buy-nft-button";
-import { ABI, CONTRACT_ADDRESS } from "@/constants/contractConfig";
+import { MarketContract, ApeWorldContract } from "@/utils/ethersContract";
 
 export default function NftPage() {
     const { id } = useParams();
@@ -24,17 +23,15 @@ export default function NftPage() {
 
     const nftAddress = (id.slice(1) as string).trim();
     const tokenId = (id.slice(0, 1) as string).trim();
+
     const getTokenUri = async (tokenId: string) => {
 
-        const nftContract = new ethers.Contract(
-            nftAddress,
-            nftAbi,
-            signer
-        );
+        const nftContract = ApeWorldContract(nftAddress, signer);
 
         const tx = await nftContract.tokenURI(tokenId);
         return tx
     }
+
     async function updateUI() {
         const result = await getTokenUri(tokenId);
         const data = JSON.parse(result);
@@ -53,17 +50,11 @@ export default function NftPage() {
             setPrice(ethers.formatEther(otherData[0].price));
             setOwnerAddress(otherData.seller)
         }
-        // console.log(otherData);
     }
 
     const cancleListing = async () => {
-        // const signer = provider?.getSigner();
 
-        const marketContract = new ethers.Contract(
-            CONTRACT_ADDRESS,
-            ABI,
-            signer
-        );
+        const marketContract = MarketContract(signer);
 
         const tx = await marketContract.cancelListing(nftAddress, tokenId);
 
