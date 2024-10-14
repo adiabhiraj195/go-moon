@@ -1,8 +1,9 @@
 'use client';
+
 import { useWallet } from "@/contexts/WalletProvide";
 import { ethers } from "ethers";
-import { nftAbi } from "@/constants/BaseNft";
 import { useEffect, useState } from "react";
+import { ApeWorldContract } from "@/utils/ethersContract";
 import { ABI, CONTRACT_ADDRESS } from "@/constants/contractConfig";
 
 import { Outfit, Staatliches } from "@next/font/google";
@@ -28,21 +29,15 @@ interface NFTCardProps {
 const NFTCard: React.FC<NFTCardProps> = ({ tokenId, ownerAddress, nftAddress, price }) => {
     const [image, setImage] = useState("");
     const [nftMetadata, setNftMetadata] = useState<any>({});
-    const { account, signer } = useWallet();
+    const { signer } = useWallet();
     // console.log(account, ownerAddress)
+
     const getTokenUri = async (tokenId: string) => {
 
-        const nftContract = new ethers.Contract(
-            nftAddress,
-            nftAbi,
-            signer
-        );
+        const nftContract = ApeWorldContract(nftAddress, signer)
 
         const tx = await nftContract.tokenURI(tokenId);
-        // await tx.wait();
-        // console.log(tx)
-        // setNftMetadata(JSON.parse(tx));
-        // console.log(nftMetadata, " metadata")
+
         return tx
     }
 
@@ -56,26 +51,10 @@ const NFTCard: React.FC<NFTCardProps> = ({ tokenId, ownerAddress, nftAddress, pr
         }
     }
 
-    const cancleListing = async () => {
-        // const signer = provider?.getSigner();
-
-        const marketContract = new ethers.Contract(
-            CONTRACT_ADDRESS,
-            ABI,
-            signer
-        );
-
-        const tx = await marketContract.cancelListing(nftAddress, tokenId);
-
-        console.log(tx);
-    }
-
     useEffect(() => {
-        // getTokenUri(tokenId)
-        // setNftMetadata(await metadata);
         updateCard();
     }, [])
-    // console.log(getTokenUri());
+
     return (
         <div className="border-2 border-white rounded-xl overflow-hidden w-56">
             {/* NFT Image */}

@@ -1,7 +1,6 @@
 import SellNFTForm from '@/components/SellNftForm';
-import { ABI, CONTRACT_ADDRESS } from '@/constants/contractConfig';
 import WithdrawEth from '@/components/Money-withdraw';
-import { Outfit, Staatliches } from "@next/font/google";
+import { Staatliches } from "@next/font/google";
 
 const statliche = Staatliches({
     weight: ["400"],

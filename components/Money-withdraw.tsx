@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { useWallet } from '@/contexts/WalletProvide'
 import { ethers } from "ethers";
-import { ABI, CONTRACT_ADDRESS } from '@/constants/contractConfig';
+import { MarketContract } from '@/utils/ethersContract';
 
 import { Outfit, Staatliches } from "@next/font/google";
 
@@ -28,24 +28,18 @@ export default function WithdrawEth() {
         }
         console.log("hii")
         try {
-            const marketContract = new ethers.Contract(
-                CONTRACT_ADDRESS,
-                ABI,
-                signer
-            );
+            const marketContract = MarketContract(signer);
+
             const tx = await marketContract.getBalance();
+
             if (!tx) {
                 return
             }
+
             const result = tx.toString();
             setBalance(ethers.formatEther(result));
             console.log(balance + " balance", ethers.formatEther(result))
 
-            // const tx = await marketContract.withdrawProceeds();
-            // tx.wait();
-
-
-            // console.log("balace: ", tx)
         } catch (error) {
             console.log(error);
         }
@@ -58,17 +52,12 @@ export default function WithdrawEth() {
         setLoading(true)
 
         try {
-            const marketContract = new ethers.Contract(
-                CONTRACT_ADDRESS,
-                ABI,
-                signer
-            );
+            const marketContract = MarketContract(signer);
 
             const tx = await marketContract.withdrawProceeds();
 
             getBalance();
 
-            // console.log("balace: ", tx)
         } catch (error) {
             console.log(error);
         }

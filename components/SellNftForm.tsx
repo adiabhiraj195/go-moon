@@ -3,6 +3,10 @@
 import { useState } from 'react';
 import { ethers } from 'ethers';
 import { useWallet } from '@/contexts/WalletProvide';
+import { ApeWorldContract, MarketContract } from '@/utils/ethersContract';
+import { CONTRACT_ADDRESS } from '@/constants/contractConfig';
+
+const SellNFTForm = () => {
 import { apeWorldAbi } from '@/constants/ApeWorld';
 import { Outfit, Staatliches } from "@next/font/google";
 
@@ -33,7 +37,7 @@ const SellNFTForm: React.FC<SellNFTFormProps> = ({ marketplaceAddress, marketpla
     const { isConnected, provider, account, signer } = useWallet();
     // console.log(account, " account")
 
-    // Function to handle form submission
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
@@ -49,29 +53,23 @@ const SellNFTForm: React.FC<SellNFTFormProps> = ({ marketplaceAddress, marketpla
 
             // const signer = provider?.getSigner();
 
-            const marketplaceContract = new ethers.Contract(
-                marketplaceAddress,
-                marketplaceAbi,
-                signer
-            );
-            const nftContract = new ethers.Contract(
-                nftAddress,
-                apeWorldAbi,
-                signer
-            );
+            const marketContract = MarketContract(signer);
+
+            const nftContract = ApeWorldContract(nftAddress, signer);
 
             const owner = await nftContract.ownerOf(tokenId);
             console.log(`Owner of tokenId ${tokenId}:`, owner);
+
             if (owner.toLowerCase() !== account?.toLowerCase()) {
                 throw new Error(`Signer does not own tokenId ${tokenId}`);
             }
 
-            const approvalTx = await nftContract.approve(marketplaceAddress, tokenId);
+            const approvalTx = await nftContract.approve(CONTRACT_ADDRESS, tokenId);
             await approvalTx.wait();
 
             const priceInWei = ethers.parseEther(price);
 
-            const tx = await marketplaceContract.listItem(nftAddress, tokenId, priceInWei);
+            const tx = await marketContract.listItem(nftAddress, tokenId, priceInWei);
             await tx.wait();
 
             setSuccessMessage(`NFT listed successfully! Transaction Hash: ${tx.hash}`);

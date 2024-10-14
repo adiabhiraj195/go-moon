@@ -2,7 +2,7 @@
 import React from 'react'
 import { useWallet } from '@/contexts/WalletProvide'
 import { ethers } from 'ethers';
-import { CONTRACT_ADDRESS, ABI } from '@/constants/contractConfig';
+import { MarketContract } from '@/utils/ethersContract';
 
 import { Outfit, Staatliches } from "@next/font/google";
 
@@ -31,11 +31,7 @@ export default function BuyButton({ ownerAddress, nftAddress, tokenId, nftPrice 
         }
 
         try {
-            const marketContract = new ethers.Contract(
-                CONTRACT_ADDRESS,
-                ABI,
-                signer
-            );
+            const marketContract = MarketContract(signer)
             const price = ethers.parseEther(nftPrice)
 
             const tx = await marketContract.buyItem(nftAddress, tokenId, {
