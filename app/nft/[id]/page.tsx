@@ -8,6 +8,7 @@ import { useQuery } from "@apollo/client";
 import GET_ACTIVE_ITEMS from "@/constants/subgraphQuerys";
 import BuyButton from "@/components/ui/Buy-nft-button";
 import { MarketContract, ApeWorldContract } from "@/utils/ethersContract";
+import Loading from "@/components/ui/Loading";
 
 export default function NftPage() {
     const { id } = useParams();
@@ -19,13 +20,15 @@ export default function NftPage() {
 
     const { loading, error, data: listedNfts } = useQuery(GET_ACTIVE_ITEMS);
 
-    const { signer, account } = useWallet();
+    const { signer, account, isConnected } = useWallet();
 
     const nftAddress = (id.slice(1) as string).trim();
     const tokenId = (id.slice(0, 1) as string).trim();
 
     const getTokenUri = async (tokenId: string) => {
-
+        if (!isConnected) {
+            return
+        }
         const nftContract = ApeWorldContract(nftAddress, signer);
 
         const tx = await nftContract.tokenURI(tokenId);
@@ -34,21 +37,14 @@ export default function NftPage() {
 
     async function updateUI() {
         const result = await getTokenUri(tokenId);
-        const data = JSON.parse(result);
 
-        if (data) {
-            console.log(data)
+        if (result) {
+            const data = JSON.parse(result);
+            // console.log(data)
             setImage(data.image);
             setName(data.name);
             setDescription(data.description);
-        }
-        const otherData = listedNfts?.activeItems.filter((item: any) => {
-            return item.id === id;
-        })
-
-        if (otherData.length > 0) {
-            setPrice(ethers.formatEther(otherData[0].price));
-            setOwnerAddress(otherData.seller)
+            // console.log(listedNfts)
         }
     }
 
@@ -63,8 +59,21 @@ export default function NftPage() {
 
     useEffect(() => {
         updateUI();
-    }, [])
+        const otherData = listedNfts?.activeItems.filter((item: any) => {
+            return item.id === id;
+        })
 
+        if (otherData?.length > 0) {
+            setPrice(ethers.formatEther(otherData[0].price));
+            setOwnerAddress(otherData[0].seller)
+        }
+    }, [isConnected, error])
+
+    if (loading) {
+        return (
+            <Loading />
+        )
+    }
     return (
         <div>
             <div>
@@ -80,6 +89,9 @@ export default function NftPage() {
                 </p>
                 <p>
                     <strong>Price: </strong> {price}
+                </p>
+                <p>
+                    <strong>Owner: </strong> {ownerAddress}
                 </p>
                 <button
                     onClick={cancleListing}

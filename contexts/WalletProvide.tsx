@@ -48,7 +48,7 @@ export const WalletProvider: React.FC<{ children: ReactNode }> = ({ children }) 
             await web3Provider.send("eth_requestAccounts", []); // Request wallet connection
             const signer = await web3Provider.getSigner();
             const account = await signer.getAddress();
-            console.log(web3Provider.getNetwork())
+            // console.log(web3Provider.getNetwork())
 
             setProvider(web3Provider);
             setSigner(signer);

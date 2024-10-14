@@ -5,6 +5,7 @@ import { ethers } from "ethers";
 import { MarketContract } from '@/utils/ethersContract';
 
 import { Outfit, Staatliches } from "@next/font/google";
+import Loading from './ui/Loading';
 
 const statliche = Staatliches({
     weight: ["400"],
@@ -66,7 +67,8 @@ export default function WithdrawEth() {
 
     useEffect(() => {
         getBalance();
-    }, [])
+    }, [isConnected])
+
     return (
         <div className='self-end flex flex-col'>
             <p className={`${outfit.className} self-end mx-4`}>
@@ -80,6 +82,7 @@ export default function WithdrawEth() {
                 {loading ? "withdrowing" : "Withdraw"}
 
             </button>
+            {loading && <Loading />}
         </div>
     )
 }

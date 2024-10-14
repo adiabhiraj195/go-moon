@@ -8,6 +8,7 @@ import { CONTRACT_ADDRESS } from '@/constants/contractConfig';
 
 import { apeWorldAbi } from '@/constants/ApeWorld';
 import { Outfit, Staatliches } from "@next/font/google";
+import Loading from './ui/Loading';
 
 const statliche = Staatliches({
     weight: ["400"],
@@ -34,9 +35,7 @@ const SellNFTForm = () => {
     const [error, setError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-    const { isConnected, provider, account, signer } = useWallet();
-    // console.log(account, " account")
-
+    const { isConnected, account, signer } = useWallet();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -83,6 +82,7 @@ const SellNFTForm = () => {
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4 w-full flex flex-col">
+            {isSubmitting && <Loading />}
             <div>
                 <label htmlFor="nftAddress" className={`${outfit.className} text-gray-400 text-lg`
                 }>
