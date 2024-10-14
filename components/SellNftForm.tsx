@@ -6,7 +6,6 @@ import { useWallet } from '@/contexts/WalletProvide';
 import { ApeWorldContract, MarketContract } from '@/utils/ethersContract';
 import { CONTRACT_ADDRESS } from '@/constants/contractConfig';
 
-const SellNFTForm = () => {
 import { apeWorldAbi } from '@/constants/ApeWorld';
 import { Outfit, Staatliches } from "@next/font/google";
 
@@ -25,8 +24,9 @@ interface SellNFTFormProps {
     marketplaceAddress: string;
     marketplaceAbi: any;
 }
+// const SellNFTForm = () => {
 
-const SellNFTForm: React.FC<SellNFTFormProps> = ({ marketplaceAddress, marketplaceAbi }) => {
+const SellNFTForm = () => {
     const [nftAddress, setNftAddress] = useState("");
     const [tokenId, setTokenId] = useState("");
     const [price, setPrice] = useState("");
@@ -124,7 +124,7 @@ const SellNFTForm: React.FC<SellNFTFormProps> = ({ marketplaceAddress, marketpla
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     required
-                  className="mt-1 p-2 block w-full border-gray-300 border-2 rounded-xl shadow-sm text-white"
+                    className="mt-1 p-2 block w-full border-gray-300 border-2 rounded-xl shadow-sm text-white"
                 />
             </div>
 

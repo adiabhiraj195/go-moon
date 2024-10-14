@@ -42,60 +42,60 @@ export default function Home() {
 
   const { loading, error, data: listedNfts } = useQuery(GET_ACTIVE_ITEMS);
   const { isConnected } = useWallet();
-  // console.log(listedNfts);
+  console.log(listedNfts);
   if (!isConnected) {
-    return( 
-    <div className="w-full h-full flex">
-      <div className="discover flex flex-col justify-center items-center">
-        <h1 className={`${staat.className} text-7xl `}>
-          DISCOVER,
-        </h1>
-        
-        <h3 className={`${staat.className} text-2xl mb-2`}>Buy, Sell NFT's @Puff marketplace.</h3>
+    return (
+      <div className="w-full h-full flex">
+        <div className="discover flex flex-col justify-center items-center">
+          <h1 className={`${staat.className} text-7xl `}>
+            DISCOVER,
+          </h1>
 
-        <WalletConnectButton />
-      </div>
+          <h3 className={`${staat.className} text-2xl mb-2`}>Buy, Sell NFT's @Puff marketplace.</h3>
 
-      <div className="flex slide-outer rotate-6 w-2/4 justify-center overflow-hidden ">
-       <div className="nft relative self-start h-4/5">
-       <div className="nft-slide flex flex-col">
-      <Image className="w-48 h-56 rounded-xl m-2" src={nftImg1} />
-      <Image className="w-48 h-56 rounded-xl m-2" src={nftImg2} />
-      <Image className="w-48 h-56 rounded-xl m-2" src={nftImg3} />
-      <Image className="w-48 h-56 rounded-xl m-2" src={nftImg4} />
-      <Image className="w-48 h-56 rounded-xl m-2" src={nftImg5} />
-      <Image className="w-48 h-56 rounded-xl m-2" src={nftImg6} />
+          <WalletConnectButton />
         </div>
-        <div className="nft-slide flex flex-col">
-      <Image className="w-48 h-56 rounded-xl m-2" src={nftImg1} />
-      <Image className="w-48 h-56 rounded-xl m-2" src={nftImg2} />
-      <Image className="w-48 h-56 rounded-xl m-2" src={nftImg3} />
-      <Image className="w-48 h-56 rounded-xl m-2" src={nftImg4} />
-      <Image className="w-48 h-56 rounded-xl m-2" src={nftImg5} />
-      <Image className="w-48 h-56 rounded-xl m-2" src={nftImg6} />
-        </div>
-       </div>
-        <div className="nft relative self-end h-4/5">
-        <div className="nft-slide flex flex-col">
-        <Image className="w-48 h-56 rounded-xl m-2" src={nftImg7} />
-        <Image className="w-48 h-56 rounded-xl m-2" src={nftImg8} />
-        <Image className="w-48 h-56 rounded-xl m-2" src={nftImg9} />
-        <Image className="w-48 h-56 rounded-xl m-2" src={nftImg10} />
-        <Image className="w-48 h-56 rounded-xl m-2" src={nftImg11} />
-        <Image className="w-48 h-56 rounded-xl m-2" src={nftImg12} />
-        </div>
-        <div className="nft-slide flex flex-col">
-        <Image className="w-48 h-56 rounded-xl m-2" src={nftImg7} />
-        <Image className="w-48 h-56 rounded-xl m-2" src={nftImg8} />
-        <Image className="w-48 h-56 rounded-xl m-2" src={nftImg9} />
-        <Image className="w-48 h-56 rounded-xl m-2" src={nftImg10} />
-        <Image className="w-48 h-56 rounded-xl m-2" src={nftImg11} />
-        <Image className="w-48 h-56 rounded-xl m-2" src={nftImg12} />
-        </div>
-        </div>
-      </div> 
 
-    </div>)
+        <div className="flex slide-outer rotate-6 w-2/4 justify-center overflow-hidden ">
+          <div className="nft relative self-start h-4/5">
+            <div className="nft-slide flex flex-col">
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg1} alt="" />
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg2} alt="" />
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg3} alt="" />
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg4} alt="" />
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg5} alt="" />
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg6} alt="" />
+            </div>
+            <div className="nft-slide flex flex-col">
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg1} alt="" />
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg2} alt="" />
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg3} alt="" />
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg4} alt="" />
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg5} alt="" />
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg6} alt="" />
+            </div>
+          </div>
+          <div className="nft relative self-end h-4/5">
+            <div className="nft-slide flex flex-col">
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg7} alt="" />
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg8} alt="" />
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg9} alt="" />
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg10} alt="" />
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg11} alt="" />
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg12} alt="" />
+            </div>
+            <div className="nft-slide flex flex-col">
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg7} alt="" />
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg8} alt="" />
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg9} alt="" />
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg10} alt="" />
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg11} alt="" />
+              <Image className="w-48 h-56 rounded-xl m-2" src={nftImg12} alt="" />
+            </div>
+          </div>
+        </div>
+
+      </div>)
   }
   return (
     <div className="flex w-full flex-col p-4">
