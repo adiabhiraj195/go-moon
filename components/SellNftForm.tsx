@@ -4,6 +4,18 @@ import { useState } from 'react';
 import { ethers } from 'ethers';
 import { useWallet } from '@/contexts/WalletProvide';
 import { apeWorldAbi } from '@/constants/ApeWorld';
+import { Outfit, Staatliches } from "@next/font/google";
+
+const statliche = Staatliches({
+    weight: ["400"],
+    subsets: ['latin']
+})
+
+
+const outfit = Outfit({
+    weight: ["400"],
+    subsets: ['latin']
+})
 
 interface SellNFTFormProps {
     marketplaceAddress: string;
@@ -72,9 +84,10 @@ const SellNFTForm: React.FC<SellNFTFormProps> = ({ marketplaceAddress, marketpla
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 w-full flex flex-col">
             <div>
-                <label htmlFor="nftAddress" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="nftAddress" className={`${outfit.className} text-gray-400 text-lg`
+                }>
                     NFT Address
                 </label>
                 <input
@@ -83,12 +96,13 @@ const SellNFTForm: React.FC<SellNFTFormProps> = ({ marketplaceAddress, marketpla
                     value={nftAddress}
                     onChange={(e) => setNftAddress(e.target.value)}
                     required
-                    className="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm text-black"
+                    className="mt-1 p-2 block w-full border-gray-300 border-2 rounded-xl shadow-sm text-white"
                 />
             </div>
 
             <div>
-                <label htmlFor="tokenId" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="tokenId" className={`${outfit.className} text-gray-400 text-lg`
+                }>
                     Token ID
                 </label>
                 <input
@@ -97,12 +111,13 @@ const SellNFTForm: React.FC<SellNFTFormProps> = ({ marketplaceAddress, marketpla
                     value={tokenId}
                     onChange={(e) => setTokenId(e.target.value)}
                     required
-                    className="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm text-black"
+                    className="mt-1 p-2 block w-full border-gray-300 border-2 rounded-xl shadow-sm text-white"
                 />
             </div>
 
             <div>
-                <label htmlFor="price" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="price" className={`${outfit.className} text-gray-400 text-lg`
+                }>
                     Price (in ETH)
                 </label>
                 <input
@@ -111,7 +126,7 @@ const SellNFTForm: React.FC<SellNFTFormProps> = ({ marketplaceAddress, marketpla
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     required
-                    className="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm text-black"
+                  className="mt-1 p-2 block w-full border-gray-300 border-2 rounded-xl shadow-sm text-white"
                 />
             </div>
 
@@ -119,7 +134,7 @@ const SellNFTForm: React.FC<SellNFTFormProps> = ({ marketplaceAddress, marketpla
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="p-2 bg-blue-600 text-white rounded-md"
+                    className={`${statliche.className} hover:bg-gradient-to-l hover:from-fuchsia-200 hover:to-sky-300 btn rounded-l text-2xl text-center w-36`}
                 >
                     {isSubmitting ? 'Listing NFT...' : 'Sell NFT'}
                 </button>

@@ -4,7 +4,19 @@ import { ethers } from "ethers";
 import { nftAbi } from "@/constants/BaseNft";
 import { useEffect, useState } from "react";
 import { ABI, CONTRACT_ADDRESS } from "@/constants/contractConfig";
-import BuyButton from "./Buy-nft-button";
+
+import { Outfit, Staatliches } from "@next/font/google";
+
+const statliche = Staatliches({
+    weight: ["400"],
+    subsets: ['latin']
+})
+
+
+const outfit = Outfit({
+    weight: ["400"],
+    subsets: ['latin']
+})
 
 interface NFTCardProps {
     tokenId: string;
@@ -65,23 +77,38 @@ const NFTCard: React.FC<NFTCardProps> = ({ tokenId, ownerAddress, nftAddress, pr
     }, [])
     // console.log(getTokenUri());
     return (
-        <div className="max-w-sm rounded overflow-hidden shadow-lg border border-gray-300 bg-black">
+        <div className="border-2 border-white rounded-xl overflow-hidden w-56">
             {/* NFT Image */}
-            <img className="w-full" src={nftMetadata.image} alt={`NFT ${nftMetadata.name}`} />
+            <img className="w-full h-2/4" src={nftMetadata.image} alt={`NFT ${nftMetadata.name}`} />
             {/* <p>{image}</p> */}
 
             {/* NFT Details */}
             <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2">{nftMetadata.name || `NFT #${tokenId}`}</div>
-                <p className="text-gray-700 text-base">
-                    <strong>Token ID:</strong> #{tokenId}
+                <div className={`${statliche.className} font-bold text-2xl mb-2 flex justify-between`}>
+                {nftMetadata.name || `NFT #${tokenId}`}
+                <div>
+                <p className="text-gray-400 text-base border-2 rounded-lg px-2 border-gray-400">
+                    #{tokenId}
                 </p>
-                <p className="text-gray-700 text-base">
-                    <strong>Owner:</strong> {ownerAddress.slice(0, 6)}...{ownerAddress.slice(-4)}
+                </div>   
+
+                </div>
+                <div className="flex gap-1">
+                    <p className={`${statliche.className} text-lg`}>
+                    Owner :
+                    </p>
+                    <p className={`${statliche.className} text-lg text-gray-400`}>
+                    {ownerAddress.slice(0, 6)}...{ownerAddress.slice(-4)}
+                    </p>
+                </div>
+                <div className="flex gap-1">
+                <p className={`${statliche.className} text-lg`}>
+                Price :
                 </p>
-                <p className="text-gray-700 text-base">
-                    <strong>Price:</strong> {ethers.formatEther(price)}
+                <p className={`${statliche.className} text-lg text-gray-400`}>
+                {ethers.formatEther(price)}
                 </p>
+                </div>
             </div>
 
         </div>

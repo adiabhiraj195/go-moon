@@ -4,6 +4,19 @@ import { useWallet } from '@/contexts/WalletProvide'
 import { ethers } from 'ethers';
 import { CONTRACT_ADDRESS, ABI } from '@/constants/contractConfig';
 
+import { Outfit, Staatliches } from "@next/font/google";
+
+const statliche = Staatliches({
+    weight: ["400"],
+    subsets: ['latin']
+})
+
+
+const outfit = Outfit({
+    weight: ["400"],
+    subsets: ['latin']
+})
+
 export default function BuyButton({ ownerAddress, nftAddress, tokenId, nftPrice }: {
     ownerAddress: string;
     nftAddress: string;
@@ -36,7 +49,7 @@ export default function BuyButton({ ownerAddress, nftAddress, tokenId, nftPrice 
     return (
         <button
             onClick={handleBuy}
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            className={`${statliche.className} hover:bg-gradient-to-l hover:from-fuchsia-200 hover:to-sky-300 btn rounded-l text-2xl text-center w-48`}
         >
             Buy
         </button>

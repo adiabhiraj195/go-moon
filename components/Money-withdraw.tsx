@@ -4,6 +4,19 @@ import { useWallet } from '@/contexts/WalletProvide'
 import { ethers } from "ethers";
 import { ABI, CONTRACT_ADDRESS } from '@/constants/contractConfig';
 
+import { Outfit, Staatliches } from "@next/font/google";
+
+const statliche = Staatliches({
+    weight: ["400"],
+    subsets: ['latin']
+})
+
+
+const outfit = Outfit({
+    weight: ["400"],
+    subsets: ['latin']
+})
+
 export default function WithdrawEth() {
     const { signer, isConnected } = useWallet();
     const [balance, setBalance] = useState("");
@@ -66,14 +79,14 @@ export default function WithdrawEth() {
         getBalance();
     }, [])
     return (
-        <div>
-            <p>
+        <div className='self-end flex flex-col'>
+            <p className={`${outfit.className} self-end mx-4`}>
                 <strong>Balance: </strong>{balance != "" ? balance : 0}
             </p>
             <button
                 onClick={handleWithdraw}
                 disabled={loading}
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                className={`${statliche.className} hover:bg-gradient-to-l hover:from-fuchsia-200 hover:to-sky-300 btn rounded-l text-2xl text-center w-48`}
             >
                 {loading ? "withdrowing" : "Withdraw"}
 
