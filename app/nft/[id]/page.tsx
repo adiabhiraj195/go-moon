@@ -51,10 +51,15 @@ export default function NftPage() {
     const cancleListing = async () => {
 
         const marketContract = MarketContract(signer);
+        try {
 
-        const tx = await marketContract.cancelListing(nftAddress, tokenId);
+            const tx = await marketContract.cancelListing(nftAddress, tokenId);
 
-        console.log(tx);
+            console.log(tx);
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     useEffect(() => {

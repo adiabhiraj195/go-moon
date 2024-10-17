@@ -5,8 +5,6 @@ import { ethers } from 'ethers';
 import { useWallet } from '@/contexts/WalletProvide';
 import { ApeWorldContract, MarketContract } from '@/utils/ethersContract';
 import { CONTRACT_ADDRESS } from '@/constants/contractConfig';
-
-import { apeWorldAbi } from '@/constants/ApeWorld';
 import { Outfit, Staatliches } from "@next/font/google";
 import Loading from './ui/Loading';
 
@@ -15,17 +13,10 @@ const statliche = Staatliches({
     subsets: ['latin']
 })
 
-
 const outfit = Outfit({
     weight: ["400"],
     subsets: ['latin']
 })
-
-interface SellNFTFormProps {
-    marketplaceAddress: string;
-    marketplaceAbi: any;
-}
-// const SellNFTForm = () => {
 
 const SellNFTForm = () => {
     const [nftAddress, setNftAddress] = useState("");
@@ -37,23 +28,11 @@ const SellNFTForm = () => {
 
     const { isConnected, account, signer } = useWallet();
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setError(null);
-        setSuccessMessage(null);
-        setIsSubmitting(true);
+    async function listOnChain(nftAddress: string, tokenId: string, price: string) {
+        if (!isConnected) return;
 
         try {
-            if (!isConnected) {
-                setError("wallet is not connected");
-                setIsSubmitting(false);
-                return;
-            }
-
-            // const signer = provider?.getSigner();
-
             const marketContract = MarketContract(signer);
-
             const nftContract = ApeWorldContract(nftAddress, signer);
 
             const owner = await nftContract.ownerOf(tokenId);
@@ -65,13 +44,60 @@ const SellNFTForm = () => {
 
             const approvalTx = await nftContract.approve(CONTRACT_ADDRESS, tokenId);
             await approvalTx.wait();
+            console.log("approved")
 
-            const priceInWei = ethers.parseEther(price);
+            const priceInWei = ethers.parseEther(price); // Convert price to wei (smallest ETH unit)
 
             const tx = await marketContract.listItem(nftAddress, tokenId, priceInWei);
-            await tx.wait();
+            // console.log("listed", tx.hash);
 
-            setSuccessMessage(`NFT listed successfully! Transaction Hash: ${tx.hash}`);
+            const receipt = await tx.wait();
+            console.log("list waited", receipt)
+
+            const uri = await nftContract.tokenURI(tokenId);
+
+            setSuccessMessage(`NFT listed successfully! Transaction Hash: ${receipt.hash}`);
+
+            return { txHash: receipt.hash, uri };
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError(null);
+        setSuccessMessage(null);
+        setIsSubmitting(true);
+
+        if (!isConnected) {
+            setError("wallet is not connected");
+            setIsSubmitting(false);
+            return;
+        }
+
+        try {
+            const listdata = await listOnChain(nftAddress, tokenId, price);
+            // const txHash = "0x9881abfd5aba34ab5bfcdf08e8808bddca02196a5bcf3ce234c9035d62bb6c63"
+
+            const payload = {
+                nftAddress: nftAddress,
+                tokenId: tokenId,
+                price: price,
+                account: account,
+                txHash: listdata?.txHash,
+                uri: listdata?.uri
+            }
+            // send data to backend
+            const result = await fetch('/api/nft', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const response = await result.json();
+            console.log("Transaction processed:", response);
+            // request to backend to update database listing, transaction history;
+
         } catch (err) {
             console.log(err)
             setError(`Error listing NFT: ${err instanceof Error ? err.message : 'Unknown error'}`);

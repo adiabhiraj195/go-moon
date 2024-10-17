@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  // id            Int           @id @default(autoincrement())
+  walletAddress String        @id @unique
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  nftListings   NftListing[] // One-to-many relationship with NFT Listings
+  transactions  Transaction[] // One-to-many relationship with Transactions
+  nfts          NftDetails[]
+}
+
+model NftListing {
+  id           Int           @id @default(autoincrement())
+  user         User          @relation(fields: [userAddress], references: [walletAddress])
+  userAddress  String // Foreign key to User model
+  nftAddress   String
+  tokenId      String
+  price        String
+  imageURl     String
+  name         String
+  status       NftStatus // Enum to represent 'listed', 'sold', 'cancelled'
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  transactions Transaction[] // One-to-many relationship with Transactions
+}
+
+enum NftStatus {
+  LISTED
+  SOLD
+  CANCELLED
+}
+
+model Transaction {
+  id           Int        @id @default(autoincrement())
+  user         User       @relation(fields: [userAddress], references: [walletAddress])
+  userAddress  String // Foreign key to User model
+  nftListing   NftListing @relation(fields: [nftListingId], references: [id])
+  nftListingId Int // Foreign key to NftListing model
+  txHash       String     @unique
+  from         String
+  to           String
+  amount       String?
+  txType       TxType // Enum to represent 'buy', 'withdraw', 'mint', 'list'
+  createdAt    DateTime   @default(now())
+}
+
+enum TxType {
+  LIST
+  BUY
+  CANCELLED
+  MINT
+}
+
+model NftDetails {
+  id          Int       @id @default(autoincrement())
+  user        User      @relation(fields: [userAddress], references: [walletAddress])
+  userAddress String
+  name        String
+  description String
+  traitType   String
+  image       String
+  status      NftStatus
+}

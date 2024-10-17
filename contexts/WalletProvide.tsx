@@ -47,12 +47,20 @@ export const WalletProvider: React.FC<{ children: ReactNode }> = ({ children }) 
             const web3Provider = new ethers.BrowserProvider(window.ethereum);
             await web3Provider.send("eth_requestAccounts", []); // Request wallet connection
             const signer = await web3Provider.getSigner();
-            const account = await signer.getAddress();
+            const walletAddress = await signer.getAddress();
             // console.log(web3Provider.getNetwork())
+
+            const response = await fetch('/api/user', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ walletAddress: walletAddress })
+            });
+
+            console.log(response.json());
 
             setProvider(web3Provider);
             setSigner(signer);
-            setAccount(account);
+            setAccount(walletAddress);
             setIsConnected(true);
             setError(null); // Clear any previous errors
         } catch (err) {
