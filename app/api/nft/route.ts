@@ -2,17 +2,11 @@ import { NextRequest, NextResponse, userAgent } from "next/server";
 import { getUser } from "@/data-access/users";
 import { getAllListing, listNft } from "@/data-access/listing";
 import { createTransaction } from "@/data-access/transactions";
+import { pushNftDetails } from "@/data-access/nft";
 
 export async function POST(req: NextRequest, res: NextResponse) {
     const { nftAddress, tokenId, price, account, txHash, uri } = await req.json();
-    // console.log(process.env.INFURA_API_URL)
-    // const provider = new ethers.JsonRpcProvider(process.env.INFURA_API_URL)
-    // const signer = new ethers.Wallet(process.env.PRIVATE_KEY as string, provider);
-    // console.log(provider, " -> Provider")
-    // console.log(signer, " -> Signer")
 
-
-    // const nftContract = ApeWorldContract(nftAddress as string, signer);
     try {
         const user = await getUser(account);
         if (!user) {
@@ -20,13 +14,14 @@ export async function POST(req: NextRequest, res: NextResponse) {
         }
 
         const URI = JSON.parse(uri);
+        const id = (tokenId as string).concat(nftAddress as string);
 
-        const listResponce = await listNft(nftAddress, tokenId, price, account, URI?.image, URI?.name);
+        const listResponce = await listNft(id, nftAddress, tokenId, price, account, URI?.image, URI?.name);
         console.log(listResponce);
 
         const tran = await createTransaction({
             userAddress: account,
-            nftListingId: listResponce?.id || -1,
+            nftListingId: listResponce?.id || "-1",
             txHash: txHash,
             from: account,
             to: "marketplace",
@@ -35,6 +30,18 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
         });
         console.log(tran)
+
+        const details = await pushNftDetails({
+            id,
+            userAddress: account,
+            name: URI?.name,
+            description: URI?.description,
+            traitType: URI?.attributes[0].trait_type,
+            price,
+            image: URI?.image,
+            status: "LISTED"
+        })
+        console.log(details)
         //updatre nft details
         return NextResponse.json({ success: true, msg: "created" })
     } catch (error) {

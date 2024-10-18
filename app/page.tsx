@@ -1,7 +1,7 @@
 "use client"
 
-// import GET_ACTIVE_ITEMS from "@/constants/subgraphQuerys";
-// import { useQuery } from "@apollo/client";
+import GET_ACTIVE_ITEMS from "@/constants/subgraphQuerys";
+import { useQuery } from "@apollo/client";
 // import { useWallet } from "@/contexts/WalletProvide";
 // import Loading from "@/components/ui/Loading";
 // import LandingPage from "@/app/Landing-page";
@@ -17,10 +17,10 @@ const staat = Staatliches({
 
 export default function Home() {
 
-  // const { loading, error, data: listedNfts } = useQuery(GET_ACTIVE_ITEMS);
+  const { loading, error, data: listedNfts } = useQuery(GET_ACTIVE_ITEMS);
   // const { isConnected } = useWallet();
   const [nftListings, setNftListings] = useState([]);
-
+  console.log(listedNfts)
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch('/api/nft');

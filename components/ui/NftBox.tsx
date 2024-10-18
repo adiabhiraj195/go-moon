@@ -12,7 +12,6 @@ const outfit = Outfit({
 interface NFTCardProps {
     tokenId: string;
     ownerAddress: string;
-    nftAddress: string;
     price: string;
     imageUrl: string;
     name: string
@@ -42,7 +41,7 @@ const NFTCard: React.FC<NFTCardProps> = ({ tokenId, ownerAddress, price, imageUr
                         Owner :
                     </p>
                     <p className={`${statliche.className} text-lg text-gray-400`}>
-                        {ownerAddress.slice(0, 6)}...{ownerAddress.slice(-4)}''
+                        {ownerAddress.slice(0, 6)}...{ownerAddress.slice(-4)}
                     </p>
                 </div>
                 <div className="flex gap-1">

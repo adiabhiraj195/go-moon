@@ -24,7 +24,7 @@ model User {
 }
 
 model NftListing {
-  id           Int           @id @default(autoincrement())
+  id           String        @id
   user         User          @relation(fields: [userAddress], references: [walletAddress])
   userAddress  String // Foreign key to User model
   nftAddress   String
@@ -49,7 +49,7 @@ model Transaction {
   user         User       @relation(fields: [userAddress], references: [walletAddress])
   userAddress  String // Foreign key to User model
   nftListing   NftListing @relation(fields: [nftListingId], references: [id])
-  nftListingId Int // Foreign key to NftListing model
+  nftListingId String // Foreign key to NftListing model
   txHash       String     @unique
   from         String
   to           String
@@ -66,10 +66,11 @@ enum TxType {
 }
 
 model NftDetails {
-  id          Int       @id @default(autoincrement())
+  id          String    @id
   user        User      @relation(fields: [userAddress], references: [walletAddress])
   userAddress String
   name        String
+  price       String
   description String
   traitType   String
   image       String

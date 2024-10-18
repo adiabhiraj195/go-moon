@@ -2,7 +2,7 @@ import db from "@/utils/db";
 
 interface transactionInterface {
     userAddress: string,
-    nftListingId: number,
+    nftListingId: string,
     txType: "LIST" | "CANCELLED" | "MINT" | "BUY",
     from: string,
     to: string,
