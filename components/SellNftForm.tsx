@@ -95,7 +95,7 @@ const SellNFTForm = () => {
             });
 
             const response = await result.json();
-            console.log("Transaction processed:", response);
+            console.log("response:", response);
             // request to backend to update database listing, transaction history;
 
         } catch (err) {

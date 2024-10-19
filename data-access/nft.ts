@@ -39,6 +39,22 @@ export async function pushNftDetails({
     }
 }
 
+export async function buyNftById(id: string, userAddress: string, status: "SOLD") {
+    try {
+        return await db.nftDetails.update({
+            where: {
+                id
+            },
+            data: {
+                userAddress,
+                status
+            }
+        })
+    } catch (error) {
+
+    }
+}
+
 export async function getNftById(id: string) {
     try {
         return await db.nftDetails.findUnique({
@@ -50,6 +66,7 @@ export async function getNftById(id: string) {
 
     }
 }
+
 export async function deleteNft(id: string) {
     try {
         return await db.nftDetails.delete({

@@ -61,6 +61,28 @@ export default function Home() {
           )
         })
         }
+        {/* {listedNfts?.activeItems.map((item: {
+          id: string
+          nftAddress: string
+          price: string
+          userAddress: string
+          tokenId: string
+          imageURl: string
+          name: string
+        }) => {
+          return (
+            <Link href={`/nft/${item.nftAddress}/${item.tokenId}`} key={item.id}>
+              <NFTCard
+                name={item.name}
+                imageUrl={item.imageURl}
+                tokenId={item.tokenId}
+                ownerAddress={item.userAddress}
+                price={item.price}
+              />
+            </Link>
+          )
+        })
+        } */}
       </div>
       {/* </>
       } */}

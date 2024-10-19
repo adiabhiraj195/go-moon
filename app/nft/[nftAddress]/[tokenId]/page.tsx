@@ -1,33 +1,40 @@
 "use client"
 
-import { useParams } from "next/navigation"
+import { redirect, useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { useWallet } from "@/contexts/WalletProvide";
-import { useQuery } from "@apollo/client";
-import GET_ACTIVE_ITEMS from "@/constants/subgraphQuerys";
-import BuyButton from "@/components/ui/Buy-nft-button";
-import { MarketContract, ApeWorldContract } from "@/utils/ethersContract";
+import { MarketContract } from "@/utils/ethersContract";
 import Loading from "@/components/ui/Loading";
+import { Staatliches } from "@next/font/google";
+import NftRelatedTransations from "@/components/nft-related-transations";
+
+const statliche = Staatliches({
+    weight: ["400"],
+    subsets: ['latin']
+})
 
 export default function NftPage() {
     const { tokenId, nftAddress } = useParams();
-    const id = (tokenId as string).concat(nftAddress as string);
-    const [nftDetails, setNftDetails] = useState<any>();
-    const [loading, setLoading] = useState<boolean>(false);
-
-    // const { loading, error, data: listedNfts } = useQuery(GET_ACTIVE_ITEMS);
-
     const { signer, account, isConnected } = useWallet();
+    const router = useRouter();
+
+    const [nftDetails, setNftDetails] = useState<any>();
+    const [cancelling, setCancelling] = useState<boolean>(false);
+    const [buying, setBuying] = useState<boolean>(false);
+
+    const id = (tokenId as string).concat(nftAddress as string);
 
     const cancleListing = async () => {
+        if (!isConnected) return;
+
         const marketContract = MarketContract(signer);
 
         try {
-            setLoading(true);
+            setCancelling(true);
             console.log("cancelling")
             const tx = await marketContract.cancelListing(nftAddress, tokenId);
-
+            const wait = await tx.wait();
             const response = await fetch(`/api/nft/${id}`, {
                 method: 'POST',
                 headers: {
@@ -35,39 +42,69 @@ export default function NftPage() {
                 },
                 body: JSON.stringify({
                     account: account,
-                    txHash: tx.hash
+                    txHash: wait.hash
                 })
             })
-            console.log(response)
+            // console.log(response)
             // console.log(tx);
 
         } catch (error) {
             console.log(error)
         } finally {
-            setLoading(false);
+            setCancelling(false);
+            redirect("/");
+        }
+    }
+
+    async function handleBuy() {
+        if (!isConnected) return;
+        setBuying(true);
+
+        try {
+            const marketContract = MarketContract(signer)
+            const price = ethers.parseEther(nftDetails?.price)
+
+            const tx = await marketContract.buyItem(nftAddress, tokenId, {
+                value: price
+            });
+            const wait = tx.wait();
+
+            const payload = {
+                txHash: wait.hash,
+                price,
+                account
+            }
+
+            const response = await fetch(`/api/nft/${id}`, {
+                method: "PUT",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+
+            console.log(response);
+        } catch (error) {
+
+        } finally {
+            setBuying(false);
+            router.refresh();
         }
     }
 
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true);
             const response = await fetch(`/api/nft/${id}`);
             const result = await response.json();
             console.log(result)
             setNftDetails(result);
-            // setNftListings(result);
-            setLoading(false)
         };
-        fetchData();
-    }, [isConnected])
 
-    if (loading) {
-        return (
-            <Loading />
-        )
-    }
+        fetchData();
+    }, [])
+
+
     return (
         <div>
+            {cancelling && <Loading />}
             <div>
                 <img src={nftDetails?.image} alt=""></img>
             </div>
@@ -85,20 +122,29 @@ export default function NftPage() {
                 <p>
                     <strong>Owner: </strong> {nftDetails?.userAddress}
                 </p>
+                <p>
+                    <strong>Trait type: </strong> {nftDetails?.traitType}
+                </p>
                 <button
                     onClick={cancleListing}
-                    // disabled={ownerAddress?.toLowerCase() !== account?.toLowerCase()} 
+                    disabled={nftDetails?.userAddress.toLowerCase() !== account?.toLowerCase()}
                     className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                    cancle listing
+                    {cancelling ? "Canceling..." : "Cancle Listing"}
                 </button>
-                {/* <BuyButton
-                    nftPrice={price}
-                    nftAddress={nftAddress}
-                    tokenId={tokenId}
-                    ownerAddress={ownerAddress}
-                /> */}
+
+                <button
+                    onClick={handleBuy}
+                    disabled={(nftDetails?.userAddress.toLowerCase() === account?.toLowerCase()) || !account}
+                    className={`${statliche.className} hover:bg-gradient-to-l hover:from-fuchsia-200 hover:to-sky-300 btn rounded-l text-2xl text-center w-48`}
+                >
+                    {buying ? "Buying..." : "Buy Nft"}
+
+                </button>
             </div>
 
+            <div>
+                <NftRelatedTransations listingId={id} />
+            </div>
         </div>
     )
 }

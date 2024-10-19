@@ -28,6 +28,17 @@ export async function createTransaction({
 
     }
 }
+export async function getListingTransaction(listingId: string) {
+    try {
+        return await db.transaction.findMany({
+            where: {
+                nftListingId: listingId
+            }
+        })
+    } catch (error) {
+
+    }
+}
 
 // userAddress     String // Foreign key to User model
 //   nftListing      NftListing?     @relation(fields: [nftListingId], references: [id])
