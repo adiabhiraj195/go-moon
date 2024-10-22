@@ -2,6 +2,7 @@
 
 import React, { createContext, useState, useContext, useEffect, ReactNode } from "react";
 import { ethers } from "ethers";
+import { signIn, useSession } from "next-auth/react";
 
 interface WalletContextType {
     connectWallet: () => Promise<void>;
@@ -29,13 +30,22 @@ export const WalletProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     const [account, setAccount] = useState<string | null>(null);
     const [isConnected, setIsConnected] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const { data: session } = useSession();
 
     useEffect(() => {
-        // Automatically connect if a wallet is already connected
-        if (window.ethereum && window.ethereum.selectedAddress) {
-            connectWallet();
-        }
-    }, []);
+        const autoConnect = async () => {
+            if (session?.user?.address && typeof window.ethereum !== 'undefined') {
+                const provider = new ethers.BrowserProvider(window.ethereum as any);
+                const accounts = await provider.send('eth_accounts', []);
+                if (accounts.length > 0 && accounts[0].toLowerCase() === session.user.address.toLowerCase()) {
+                    setAccount(accounts[0]);
+                }
+                console.log(account)
+                setIsConnected(true)
+            }
+        };
+        autoConnect();
+    }, [session]);
 
     const connectWallet = async () => {
         try {
@@ -49,20 +59,29 @@ export const WalletProvider: React.FC<{ children: ReactNode }> = ({ children }) 
             const signer = await web3Provider.getSigner();
             const walletAddress = await signer.getAddress();
             // console.log(web3Provider.getNetwork())
+            const res = await fetch('/api/auth/nonce', { method: 'POST' });
+            const { nonce } = await res.json();
 
-            const response = await fetch('/api/user', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ walletAddress: walletAddress })
+            const signature = await signer.signMessage(nonce);
+
+            const result = await signIn('credentials', {
+                redirect: false,
+                nonce,
+                signature,
+                address: walletAddress,
             });
 
-            console.log(response.json());
+            if (result?.ok) {
+                console.log('User authenticated');
+            } else {
+                console.log('Authentication failed');
+            }
 
             setProvider(web3Provider);
             setSigner(signer);
             setAccount(walletAddress);
             setIsConnected(true);
-            setError(null); // Clear any previous errors
+            setError(null);
         } catch (err) {
             console.error(err);
             setError("Failed to connect wallet");

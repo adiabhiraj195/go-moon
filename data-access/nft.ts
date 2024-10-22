@@ -1,77 +1,43 @@
 import db from "@/utils/db";
 
-interface nftInterface {
-    id: string,
-    userAddress: string,
-    name: string,
-    description: string,
-    traitType: string,
-    price: string,
-    image: string,
-    status: "LISTED" | "SOLD" | "CANCELLED",
+interface NftInterface {
+    tokenId: string;
+    contractAddress: string;
+    ownerId: string;
+    metadataURI: string;
+    imageURI: string;
 }
 
-export async function pushNftDetails({
-    id,
-    userAddress,
-    name,
-    description,
-    traitType,
-    price,
-    image,
-    status
-}: nftInterface) {
+export async function addNftToDatabase({
+    tokenId,
+    contractAddress,
+    ownerId,
+    metadataURI,
+    imageURI
+}: NftInterface) {
     try {
-        return await db.nftDetails.create({
+
+        return await db.nFT.create({
             data: {
-                id,
-                userAddress,
-                name,
-                description,
-                traitType,
-                price,
-                image,
-                status
+                tokenId,
+                contractAddress,
+                ownerId,
+                metadataURI,
+                imageURI
             }
         })
     } catch (error) {
-
+        console.log(error)
     }
 }
 
-export async function buyNftById(id: string, userAddress: string, status: "SOLD") {
+export async function getNftByAddressAndTokenId({ contractAddress, tokenId }: { contractAddress: string, tokenId: string }) {
+
     try {
-        return await db.nftDetails.update({
+        return await db.nFT.findMany({
             where: {
-                id
-            },
-            data: {
-                userAddress,
-                status
-            }
-        })
-    } catch (error) {
-
-    }
-}
-
-export async function getNftById(id: string) {
-    try {
-        return await db.nftDetails.findUnique({
-            where: {
-                id
-            }
-        })
-    } catch (error) {
-
-    }
-}
-
-export async function deleteNft(id: string) {
-    try {
-        return await db.nftDetails.delete({
-            where: {
-                id
+                contractAddress,
+                tokenId,
             }
         })
     } catch (error) {

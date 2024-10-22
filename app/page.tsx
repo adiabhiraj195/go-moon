@@ -9,6 +9,7 @@ import NFTCard from "@/components/ui/NftBox";
 import Link from "next/link";
 import { Staatliches } from "@next/font/google";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 const staat = Staatliches({
   weight: ['400'],
@@ -16,20 +17,22 @@ const staat = Staatliches({
 })
 
 export default function Home() {
+  const { data: session } = useSession();
+  // console.log(session, "session");
 
   const { loading, error, data: listedNfts } = useQuery(GET_ACTIVE_ITEMS);
   // const { isConnected } = useWallet();
-  const [nftListings, setNftListings] = useState([]);
-  console.log(listedNfts)
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch('/api/nft');
-      const result = await response.json();
-      console.log(result)
-      setNftListings(result);
-    };
-    fetchData();
-  }, [])
+  // const [nftListings, setNftListings] = useState([]);
+  // console.log(listedNfts)
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await fetch('/api/nft');
+  //     const result = await response.json();
+  //     console.log(result)
+  //     setNftListings(result);
+  //   };
+  //   fetchData();
+  // }, [])
 
   return (
     <div className="flex w-full flex-col p-4">
@@ -39,7 +42,7 @@ export default function Home() {
       <div className="flex gap-4">
 
         {/* {listedNfts?.activeItems.map((item: { */}
-        {nftListings?.map((item: {
+        {/* {nftListings?.map((item: {
           id: string
           nftAddress: string
           price: string
@@ -60,7 +63,7 @@ export default function Home() {
             </Link>
           )
         })
-        }
+        } */}
         {/* {listedNfts?.activeItems.map((item: {
           id: string
           nftAddress: string

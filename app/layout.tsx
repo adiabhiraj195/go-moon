@@ -5,7 +5,7 @@ import Navbar from "@/components/navbar";
 import { WalletProvider } from "@/contexts/WalletProvide";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { Apolloprovider } from "@/apolloProvider";
-
+import { Provider } from "./provider";
 
 
 export const metadata: Metadata = {
@@ -23,12 +23,14 @@ export default function RootLayout({
       <body
         className={`antialiased `}
       >
-        <Apolloprovider>
+        <Provider>
           <WalletProvider>
-            <Navbar />
-            {children}
+            <Apolloprovider>
+              <Navbar />
+              {children}
+            </Apolloprovider>
           </WalletProvider>
-        </Apolloprovider>
+        </Provider>
       </body>
     </html>
   );

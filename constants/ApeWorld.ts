@@ -3,7 +3,7 @@ export const apeWorldAbi = [
         "inputs": [
             {
                 "internalType": "string",
-                "name": "name",
+                "name": "metaData",
                 "type": "string"
             }
         ],
@@ -311,19 +311,6 @@ export const apeWorldAbi = [
     },
     {
         "inputs": [],
-        "name": "getImageUrl",
-        "outputs": [
-            {
-                "internalType": "string",
-                "name": "",
-                "type": "string"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
         "name": "getTokenCounter",
         "outputs": [
             {
@@ -360,13 +347,7 @@ export const apeWorldAbi = [
         "type": "function"
     },
     {
-        "inputs": [
-            {
-                "internalType": "string",
-                "name": "imageUrl",
-                "type": "string"
-            }
-        ],
+        "inputs": [],
         "name": "mintNft",
         "outputs": [],
         "stateMutability": "nonpayable",

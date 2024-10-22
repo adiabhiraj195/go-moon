@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,66 +7,103 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// model Session {
+//   id           String   @id @default(cuid())
+//   sessionToken String   @unique
+//   address      String
+//   user         User     @relation(fields: [address], references: [address], onDelete: Cascade)
+//   expires      DateTime
+// }
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model Account {
+  id                String @id @default(cuid())
+  userId            String
+  provider          String
+  providerAccountId String
+  type              String
+  user              User   @relation(fields: [userId], references: [id])
+}
+
 model User {
-  // id            Int           @id @default(autoincrement())
-  walletAddress String        @id @unique
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  nftListings   NftListing[] // One-to-many relationship with NFT Listings
-  transactions  Transaction[] // One-to-many relationship with Transactions
-  nfts          NftDetails[]
+  id                    String        @id @default(uuid())
+  address               String        @unique
+  username              String?
+  nfts                  NFT[]
+  listings              Listing[]
+  boughtTransactions    Transaction[] @relation("BuyerTransactions")
+  soldTransactions      Transaction[] @relation("SellerTransactions")
+  saleHistoriesAsBuyer  SaleHistory[] @relation("BuyerSaleHistories")
+  saleHistoriesAsSeller SaleHistory[] @relation("SellerSaleHistories")
+  sessions              Session[]
+  accounts              Account[]
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
 }
 
-model NftListing {
-  id           String        @id
-  user         User          @relation(fields: [userAddress], references: [walletAddress])
-  userAddress  String // Foreign key to User model
-  nftAddress   String
-  tokenId      String
-  price        String
-  imageURl     String
-  name         String
-  status       NftStatus // Enum to represent 'listed', 'sold', 'cancelled'
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  transactions Transaction[] // One-to-many relationship with Transactions
+model NFT {
+  id              String        @id @default(uuid())
+  tokenId         String
+  contractAddress String
+  ownerId         String
+  owner           User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  metadataURI     String
+  imageURI        String
+  isListed        Boolean       @default(false)
+  listing         Listing?
+  saleHistory     SaleHistory[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  Transaction Transaction[]
 }
 
-enum NftStatus {
-  LISTED
-  SOLD
-  CANCELLED
+model Listing {
+  id        String        @id @default(uuid()) // Unique listing ID
+  nftId     String        @unique // Foreign key to the NFT table
+  nft       NFT           @relation(fields: [nftId], references: [id], onDelete: Cascade)
+  sellerId  String // Foreign key to the User (seller) table
+  seller    User          @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  price     Float // Sale price of the NFT
+  status    ListingStatus @default(ACTIVE) // Listing status (active, sold, canceled)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 }
 
 model Transaction {
-  id           Int        @id @default(autoincrement())
-  user         User       @relation(fields: [userAddress], references: [walletAddress])
-  userAddress  String // Foreign key to User model
-  nftListing   NftListing @relation(fields: [nftListingId], references: [id])
-  nftListingId String // Foreign key to NftListing model
-  txHash       String     @unique
-  from         String
-  to           String
-  amount       String?
-  txType       TxType // Enum to represent 'buy', 'withdraw', 'mint', 'list'
-  createdAt    DateTime   @default(now())
+  id              String   @id @default(uuid()) // Unique transaction ID
+  nftId           String // Foreign key to the NFT
+  nft             NFT      @relation(fields: [nftId], references: [id], onDelete: Cascade)
+  buyerId         String // Foreign key to the User (buyer) table
+  buyer           User     @relation(name: "BuyerTransactions", fields: [buyerId], references: [id], onDelete: Cascade)
+  sellerId        String // Foreign key to the User (seller) table
+  seller          User     @relation(name: "SellerTransactions", fields: [sellerId], references: [id], onDelete: Cascade)
+  price           Float // Price paid for the NFT
+  transactionHash String // Blockchain transaction hash
+  createdAt       DateTime @default(now())
 }
 
-enum TxType {
-  LIST
-  BUY
-  CANCELLED
-  MINT
+model SaleHistory {
+  id              String   @id @default(uuid()) // Unique sale history ID
+  nftId           String // Foreign key to the NFT table
+  nft             NFT      @relation(fields: [nftId], references: [id], onDelete: Cascade)
+  sellerId        String // Foreign key to the User (seller) table
+  seller          User     @relation(name: "SellerSaleHistories", fields: [sellerId], references: [id], onDelete: Cascade)
+  buyerId         String // Foreign key to the User (buyer) table
+  buyer           User     @relation(name: "BuyerSaleHistories", fields: [buyerId], references: [id], onDelete: Cascade)
+  price           Float // Sale price of the NFT
+  transactionHash String // Blockchain transaction hash for the sale
+  createdAt       DateTime @default(now()) // Timestamp of the transaction
 }
 
-model NftDetails {
-  id          String    @id
-  user        User      @relation(fields: [userAddress], references: [walletAddress])
-  userAddress String
-  name        String
-  price       String
-  description String
-  traitType   String
-  image       String
-  status      NftStatus
+enum ListingStatus {
+  ACTIVE
+  SOLD
+  CANCELED
 }
