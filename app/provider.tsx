@@ -9,3 +9,10 @@ export function Provider({ children }: { children: React.ReactNode }) {
         </SessionProvider>
     )
 }
+export function WrapServerComponent({ children }: { children: React.ReactNode }) {
+    return (
+        <div>
+            {children}
+        </div>
+    )
+}

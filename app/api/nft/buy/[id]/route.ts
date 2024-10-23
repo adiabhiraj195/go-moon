@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/auth";
 import { updateListing } from "@/data-access/listing";
 import { updateNftOwner } from "@/data-access/nft";
-import { createTransaction } from "@/data-access/transaction";
+import { createSaleHistory, createTransaction } from "@/data-access/transaction";
 
 export async function POST(req: NextRequest) {
     const { sellerId, txHash, price } = await req.json()
@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     }
     //update listing to SOLD
     //update nft's owner id and is listed status to false
-    //update sold transaction and transaction
+    //update sale history and transaction
 
     try {
         await updateListing({ nftId, status: "SOLD" })
@@ -31,6 +31,14 @@ export async function POST(req: NextRequest) {
             price,
             transactionHash: txHash
         })
+        await createSaleHistory({
+            nftId,
+            sellerId,
+            buyerId: session?.user.id as string,
+            price,
+            transactionHash: txHash
+        })
+
         return NextResponse.json({ success: true }, { status: 200 })
     } catch (error) {
         console.log(error)

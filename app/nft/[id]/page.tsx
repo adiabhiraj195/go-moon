@@ -8,6 +8,7 @@ import { NftInterface, NftMetadataInteface } from "@/types/nft-types";
 import BuyButton from "@/components/ui/buttons/Buy-nft-button";
 import Nft_Details_Panel from "@/components/nft-details-panel";
 import Cancel_Listing_Button from "@/components/ui/buttons/cancel-listing-button";
+import Nft_Transaction from "@/components/nft-transations";
 
 const statliche = Staatliches({
     weight: ["400"],
@@ -66,7 +67,7 @@ export default function NftPage() {
             </div>
 
             <div>
-                {/* <NftRelatedTransations listingId={id} /> */}
+                <Nft_Transaction nftId={id as string} />
             </div>
         </div>
     )

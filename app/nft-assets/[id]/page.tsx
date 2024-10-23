@@ -9,6 +9,8 @@ import List_Nft_Popup from "@/components/list-nft-popup";
 import Nft_Details_Panel from "@/components/nft-details-panel";
 import { useSession } from "next-auth/react";
 import Cancel_Listing_Button from "@/components/ui/buttons/cancel-listing-button";
+import Nft_Transaction from "@/components/nft-transations";
+import { WrapServerComponent } from "@/app/provider";
 
 const statliche = Staatliches({
     weight: ["400"],
@@ -77,7 +79,9 @@ export default function NftAsAssetPage() {
             </div>
 
             <div>
-                {/* <NftRelatedTransations listingId={id} /> */}
+
+                <Nft_Transaction nftId={id as string} />
+
             </div>
         </div>
     )
