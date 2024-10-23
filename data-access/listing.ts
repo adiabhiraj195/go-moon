@@ -46,3 +46,24 @@ export async function getAllActiveListings() {
 
     }
 }
+
+export async function updateListing({
+    nftId,
+    status
+}: {
+    nftId: string
+    status: "SOLD" | "CANCELED" | "ACTIVE"
+}) {
+    try {
+        return await db.listing.update({
+            where: {
+                nftId
+            },
+            data: {
+                status
+            }
+        })
+    } catch (error) {
+
+    }
+}

@@ -92,3 +92,19 @@ export async function updateListingOfNft(id: string, isListed: boolean) {
 
     }
 }
+export async function updateNftOwner(id: string, isListed: boolean, ownerId: string) {
+    try {
+        return await db.nFT.update({
+            where: {
+                id
+            },
+            data: {
+                isListed,
+                ownerId
+            }
+
+        })
+    } catch (error) {
+
+    }
+}

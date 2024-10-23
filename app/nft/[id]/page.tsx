@@ -7,6 +7,7 @@ import { Staatliches } from "@next/font/google";
 // import NftRelatedTransations from "@/components/nft-related-transations";
 import { NftInterface, NftMetadataInteface } from "@/types/nft-types";
 import List_Nft_Popup from "@/components/list-nft-popup";
+import BuyButton from "@/components/ui/buttons/buy-nft-button";
 
 const statliche = Staatliches({
     weight: ["400"],
@@ -92,15 +93,24 @@ export default function NftPage() {
                         })}
                     </ol>
                 </div>
-                <button
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                    disabled={nft?.isListed}
-                    onClick={openModal}
-                >
-                    {nft?.isListed ? "allready listed" : " List NFT"}
 
-                </button>
+                <div>
+                    <button
+                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                        disabled={nft?.isListed}
+                        onClick={openModal}
+                    >
+                        {nft?.isListed ? "allready listed" : " List NFT"}
+                    </button>
 
+                    <BuyButton
+                        nftId={id as string}
+                        nftAddress={nft?.contractAddress as string}
+                        tokenId={nft?.tokenId as string}
+                        nftPrice={nft?.listing?.price as string}
+                        ownerId={nft?.ownerId as string}
+                    />
+                </div>
 
             </div>
 
