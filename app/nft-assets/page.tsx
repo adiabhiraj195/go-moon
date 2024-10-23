@@ -22,7 +22,7 @@ export default async function Page() {
             <div className='flex'>
                 {data?.map((item: any) => {
                     return (
-                        <LinkProvider href={`/nft/${item.id}`} key={item.id}>
+                        <LinkProvider href={`/nft-assets/${item.id}`} key={item.id}>
                             <NFTCard
                                 tokenId={item.tokenId}
                                 // seller={item.ownerId}

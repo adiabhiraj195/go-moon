@@ -1,22 +1,21 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Loading from "@/components/ui/Loading";
 import { Staatliches } from "@next/font/google";
-// import NftRelatedTransations from "@/components/nft-related-transations";
 import { NftInterface, NftMetadataInteface } from "@/types/nft-types";
 import List_Nft_Popup from "@/components/list-nft-popup";
-import BuyButton from "@/components/ui/buttons/buy-nft-button";
 import Nft_Details_Panel from "@/components/nft-details-panel";
 import { useSession } from "next-auth/react";
+import Cancel_Listing_Button from "@/components/ui/buttons/cancel-listing-button";
 
 const statliche = Staatliches({
     weight: ["400"],
     subsets: ['latin']
 })
 
-export default function NftPage() {
+export default function NftAsAssetPage() {
     const { id } = useParams();
     const { data: session } = useSession();
 
@@ -51,37 +50,28 @@ export default function NftPage() {
     return (
         <div>
             {loading && <Loading />}
-            {/* {isOpen && <List_Nft_Popup
+            {isOpen && <List_Nft_Popup
                 setIsOpen={setIsOpen}
                 nftId={id as string}
                 nftContract={nft?.contractAddress as string}
                 tokenId={nft?.tokenId as string}
-            />} */}
+            />}
 
             <Nft_Details_Panel nft={nft} metadata={metadata} />
 
             <div>
-                {/* <button
-                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                        disabled={nft?.isListed}
-                        onClick={openModal}
-                    >
-                        {nft?.isListed ? "allready listed" : " List NFT"}
-                    </button> */}
                 <button
-                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                    disabled={nft?.ownerId !== session?.user.id}
-                // onClick={openModal}
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    disabled={nft?.isListed}
+                    onClick={openModal}
                 >
-                    cancle listing
+                    {nft?.isListed ? "allready listed" : " List NFT"}
                 </button>
 
-                <BuyButton
+                <Cancel_Listing_Button
                     nftId={id as string}
                     nftAddress={nft?.contractAddress as string}
                     tokenId={nft?.tokenId as string}
-                    nftPrice={nft?.listing?.price as string}
-                    ownerId={nft?.ownerId as string}
                 />
 
             </div>

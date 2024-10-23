@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 
 import Navbar from "@/components/navbar";
 import { WalletProvider } from "@/contexts/WalletProvide";
-import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { Apolloprovider } from "@/apolloProvider";
 import { Provider } from "./provider";
 
