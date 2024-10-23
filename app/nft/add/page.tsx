@@ -16,7 +16,6 @@ export default function AddNftPage() {
         <div className="container flex flex-col w-full items-center mx-auto p-4">
             <h1 className={`${statliche.className} text-4xl`}>Add Your NFT</h1>
             <AddNewNftForm />
-            <WithdrawEth />
         </div>
     );
 }

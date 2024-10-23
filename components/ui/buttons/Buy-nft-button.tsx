@@ -11,19 +11,19 @@ const statliche = Staatliches({
     subsets: ['latin']
 })
 
-
 const outfit = Outfit({
     weight: ["400"],
     subsets: ['latin']
 })
 
-export default function BuyButton({ ownerAddress, nftAddress, tokenId, nftPrice }: {
-    ownerAddress: string;
+export default function BuyButton({ ownerId, nftId, nftAddress, tokenId, nftPrice }: {
+    nftId: string;
     nftAddress: string;
     tokenId: string;
     nftPrice: string;
+    ownerId: string;
 }) {
-    const { isConnected, provider, signer } = useWallet();
+    const { isConnected, signer } = useWallet();
 
     async function handleBuy() {
         if (!isConnected) {
@@ -38,6 +38,18 @@ export default function BuyButton({ ownerAddress, nftAddress, tokenId, nftPrice 
                 value: price
             });
 
+            const txRecipt = await tx.wait();
+
+            await fetch(`/api/nft/buy/${nftId}`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    sellerId: ownerId,
+                    txHash: txRecipt.hash,
+                    price
+                })
+            })
+            console.log("buyed")
         } catch (error) {
 
         }

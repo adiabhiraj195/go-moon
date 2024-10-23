@@ -13,8 +13,8 @@ export async function POST(req: NextRequest) {
     const id = session.user.id;
     try {
         const isexists = await getNftByAddressAndTokenId({ contractAddress, tokenId })
-
-        if (!isexists) {
+        console.log(isexists)
+        if (isexists?.length == 0) {
             const response = await addNftToDatabase({
                 tokenId,
                 contractAddress,
@@ -28,6 +28,6 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ sucess: false, error: "allready added" }, { status: 400 })
 
     } catch (e) {
-        return NextResponse.json({ success: false, error: 23 }, { status: 401 })
+        return NextResponse.json({ success: false, error: e }, { status: 401 })
     }
 }

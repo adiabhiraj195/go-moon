@@ -1,94 +1,36 @@
-"use client"
-
-import GET_ACTIVE_ITEMS from "@/constants/subgraphQuerys";
-import { useQuery } from "@apollo/client";
-// import { useWallet } from "@/contexts/WalletProvide";
-// import Loading from "@/components/ui/Loading";
-// import LandingPage from "@/app/Landing-page";
-import NFTCard from "@/components/ui/NftBox";
-import Link from "next/link";
+import NFTCard from "@/components/ui/nft-card";
+import { getAllActiveListings } from "@/data-access/listing";
 import { Staatliches } from "@next/font/google";
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import LinkProvider from "@/components/link";
 
 const staat = Staatliches({
   weight: ['400'],
   subsets: ['latin']
 })
 
-export default function Home() {
-  const { data: session } = useSession();
-  // console.log(session, "session");
-
-  const { loading, error, data: listedNfts } = useQuery(GET_ACTIVE_ITEMS);
-  // const { isConnected } = useWallet();
-  // const [nftListings, setNftListings] = useState([]);
-  // console.log(listedNfts)
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await fetch('/api/nft');
-  //     const result = await response.json();
-  //     console.log(result)
-  //     setNftListings(result);
-  //   };
-  //   fetchData();
-  // }, [])
-
+export default async function Home() {
+  const listings = await getAllActiveListings();
+  // console.log(listings)
   return (
     <div className="flex w-full flex-col p-4">
-      {/* {loading ? <Loading /> :
-        <> */}
       <h1 className={`${staat.className} font-bold text-start text-3xl m-2`}>All NFTs ▼</h1>
+
       <div className="flex gap-4">
 
-        {/* {listedNfts?.activeItems.map((item: { */}
-        {/* {nftListings?.map((item: {
-          id: string
-          nftAddress: string
-          price: string
-          userAddress: string
-          tokenId: string
-          imageURl: string
-          name: string
-        }) => {
+        {listings?.map((item: any) => {
           return (
-            <Link href={`/nft/${item.nftAddress}/${item.tokenId}`} key={item.id}>
+            <LinkProvider href={`/nft/${item.nftId}`} key={item.id}>
               <NFTCard
-                name={item.name}
-                imageUrl={item.imageURl}
-                tokenId={item.tokenId}
-                ownerAddress={item.userAddress}
+                imageUrl={item?.nft.imageURI}
+                tokenId={item.nft.tokenId}
                 price={item.price}
+                seller={item.seller.address}
               />
-            </Link>
+            </LinkProvider>
           )
-        })
-        } */}
-        {/* {listedNfts?.activeItems.map((item: {
-          id: string
-          nftAddress: string
-          price: string
-          userAddress: string
-          tokenId: string
-          imageURl: string
-          name: string
-        }) => {
-          return (
-            <Link href={`/nft/${item.nftAddress}/${item.tokenId}`} key={item.id}>
-              <NFTCard
-                name={item.name}
-                imageUrl={item.imageURl}
-                tokenId={item.tokenId}
-                ownerAddress={item.userAddress}
-                price={item.price}
-              />
-            </Link>
-          )
-        })
-        } */}
+        })}
+
       </div>
-      {/* </>
-      } */}
     </div>
   );
 }

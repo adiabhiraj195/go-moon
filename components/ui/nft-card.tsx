@@ -11,13 +11,13 @@ const outfit = Outfit({
 
 interface NFTCardProps {
     tokenId: string;
-    ownerAddress: string;
-    price: string;
+    seller?: string;
+    price?: string;
     imageUrl: string;
-    name: string
+    name?: string
 }
 
-const NFTCard: React.FC<NFTCardProps> = ({ tokenId, ownerAddress, price, imageUrl, name }) => {
+const NFTCard: React.FC<NFTCardProps> = ({ tokenId, seller, price, imageUrl, name }) => {
 
     return (
         <div className="border-2 border-white rounded-xl overflow-hidden w-56">
@@ -28,7 +28,7 @@ const NFTCard: React.FC<NFTCardProps> = ({ tokenId, ownerAddress, price, imageUr
 
             <div className="px-6 py-4">
                 <div className={`${statliche.className} font-bold text-2xl mb-2 flex justify-between`}>
-                    {name}
+                    {name && name}
                     <div>
                         <p className="text-gray-400 text-base border-2 rounded-lg px-2 border-gray-400">
                             #{tokenId}
@@ -36,22 +36,25 @@ const NFTCard: React.FC<NFTCardProps> = ({ tokenId, ownerAddress, price, imageUr
                     </div>
 
                 </div>
-                <div className="flex gap-1">
-                    <p className={`${statliche.className} text-lg`}>
-                        Owner :
-                    </p>
-                    <p className={`${statliche.className} text-lg text-gray-400`}>
-                        {ownerAddress.slice(0, 6)}...{ownerAddress.slice(-4)}
-                    </p>
-                </div>
-                <div className="flex gap-1">
+
+                {seller &&
+                    <div className="flex gap-1">
+                        <p className={`${statliche.className} text-lg`}>
+                            Seller :
+                        </p>
+                        <p className={`${statliche.className} text-lg text-gray-400`}>
+                            {seller.slice(0, 6)}...{seller.slice(-4)}
+                        </p>
+                    </div>
+                }
+                {price && <div className="flex gap-1">
                     <p className={`${statliche.className} text-lg`}>
                         Price :
                     </p>
                     <p className={`${statliche.className} text-lg text-gray-400`}>
                         {price}
                     </p>
-                </div>
+                </div>}
             </div>
 
         </div>

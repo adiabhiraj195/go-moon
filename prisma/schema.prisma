@@ -7,13 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model Session {
-//   id           String   @id @default(cuid())
-//   sessionToken String   @unique
-//   address      String
-//   user         User     @relation(fields: [address], references: [address], onDelete: Cascade)
-//   expires      DateTime
-// }
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
@@ -65,41 +58,41 @@ model NFT {
 }
 
 model Listing {
-  id        String        @id @default(uuid()) // Unique listing ID
-  nftId     String        @unique // Foreign key to the NFT table
+  id        String        @id @default(uuid())
+  nftId     String        @unique
   nft       NFT           @relation(fields: [nftId], references: [id], onDelete: Cascade)
-  sellerId  String // Foreign key to the User (seller) table
+  sellerId  String
   seller    User          @relation(fields: [sellerId], references: [id], onDelete: Cascade)
-  price     Float // Sale price of the NFT
-  status    ListingStatus @default(ACTIVE) // Listing status (active, sold, canceled)
+  price     String
+  status    ListingStatus @default(ACTIVE)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
 }
 
 model Transaction {
-  id              String   @id @default(uuid()) // Unique transaction ID
-  nftId           String // Foreign key to the NFT
+  id              String   @id @default(uuid())
+  nftId           String
   nft             NFT      @relation(fields: [nftId], references: [id], onDelete: Cascade)
-  buyerId         String // Foreign key to the User (buyer) table
+  buyerId         String
   buyer           User     @relation(name: "BuyerTransactions", fields: [buyerId], references: [id], onDelete: Cascade)
-  sellerId        String // Foreign key to the User (seller) table
+  sellerId        String
   seller          User     @relation(name: "SellerTransactions", fields: [sellerId], references: [id], onDelete: Cascade)
-  price           Float // Price paid for the NFT
-  transactionHash String // Blockchain transaction hash
+  price           String
+  transactionHash String
   createdAt       DateTime @default(now())
 }
 
 model SaleHistory {
-  id              String   @id @default(uuid()) // Unique sale history ID
-  nftId           String // Foreign key to the NFT table
+  id              String   @id @default(uuid())
+  nftId           String
   nft             NFT      @relation(fields: [nftId], references: [id], onDelete: Cascade)
-  sellerId        String // Foreign key to the User (seller) table
+  sellerId        String
   seller          User     @relation(name: "SellerSaleHistories", fields: [sellerId], references: [id], onDelete: Cascade)
-  buyerId         String // Foreign key to the User (buyer) table
+  buyerId         String
   buyer           User     @relation(name: "BuyerSaleHistories", fields: [buyerId], references: [id], onDelete: Cascade)
-  price           Float // Sale price of the NFT
-  transactionHash String // Blockchain transaction hash for the sale
-  createdAt       DateTime @default(now()) // Timestamp of the transaction
+  price           String
+  transactionHash String
+  createdAt       DateTime @default(now())
 }
 
 enum ListingStatus {
