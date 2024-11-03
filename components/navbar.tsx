@@ -22,7 +22,7 @@ export default function Navbar() {
                 <Link href="/nft-assets" className='mx-2 hover:underline'>
                     my_assets
                 </Link>
-                <Link href="/create" className='mx-2 hover:underline'>
+                <Link href="/create-new" className='mx-2 hover:underline'>
                     create_new
                 </Link>
                 <Link href="/nft/add" className='mx-2 hover:underline'>

@@ -1,17 +1,8 @@
-export const nftAbi = [
+export const PUFF_NFT_ADDRESS = 0x50Ec9968E7D0939ae9e7CAb11E93F835BBd94816;
+
+export const PUFF_NFT_ABI = [
     {
-        "inputs": [
-            {
-                "internalType": "string",
-                "name": "happyNftUri",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "sadNftUri",
-                "type": "string"
-            }
-        ],
+        "inputs": [],
         "stateMutability": "nonpayable",
         "type": "constructor"
     },
@@ -108,11 +99,6 @@ export const nftAbi = [
         "type": "error"
     },
     {
-        "inputs": [],
-        "name": "ERC721Metadata__URI_QueryFor_NonExistentToken",
-        "type": "error"
-    },
-    {
         "inputs": [
             {
                 "internalType": "uint256",
@@ -121,11 +107,6 @@ export const nftAbi = [
             }
         ],
         "name": "ERC721NonexistentToken",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "MoodNft__CantFlipMoodIfNotOwner",
         "type": "error"
     },
     {
@@ -198,19 +179,6 @@ export const nftAbi = [
             }
         ],
         "name": "ApprovalForAll",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "tokenId",
-                "type": "uint256"
-            }
-        ],
-        "name": "NftCreated",
         "type": "event"
     },
     {
@@ -302,64 +270,12 @@ export const nftAbi = [
                 "type": "uint256"
             }
         ],
-        "name": "flipMood",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "tokenId",
-                "type": "uint256"
-            }
-        ],
         "name": "getApproved",
         "outputs": [
             {
                 "internalType": "address",
                 "name": "",
                 "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "getHappyUri",
-        "outputs": [
-            {
-                "internalType": "string",
-                "name": "",
-                "type": "string"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "getSadUri",
-        "outputs": [
-            {
-                "internalType": "string",
-                "name": "",
-                "type": "string"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "getTokenCounter",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
             }
         ],
         "stateMutability": "view",
@@ -390,9 +306,26 @@ export const nftAbi = [
         "type": "function"
     },
     {
-        "inputs": [],
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_recipient",
+                "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "_tokenURI",
+                "type": "string"
+            }
+        ],
         "name": "mintNFT",
-        "outputs": [],
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
         "stateMutability": "nonpayable",
         "type": "function"
     },
@@ -553,7 +486,7 @@ export const nftAbi = [
         "inputs": [
             {
                 "internalType": "uint256",
-                "name": "tokenId",
+                "name": "_tokenId",
                 "type": "uint256"
             }
         ],
