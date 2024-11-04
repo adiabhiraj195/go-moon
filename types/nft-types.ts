@@ -21,11 +21,11 @@ export interface NftMetadataInteface {
     description: string;
     price?: string;
     creator: { name: string };
-    attributes: NftAttributes[];
+    traits: NftAttributes[];
 }
 
 interface NftAttributes {
-    trait_type: string;
+    key: string;
     value: string;
 }
 

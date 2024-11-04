@@ -36,10 +36,10 @@ export default function Nft_Details_Panel({ nft, metadata }: {
                 <div>
                     <strong>Trait type: </strong>
                     <ol>
-                        {metadata?.attributes.map((attribute) => {
+                        {metadata?.traits.map((attribute) => {
                             return (
-                                <li key={attribute.trait_type}>
-                                    {attribute.trait_type}: {attribute.value}
+                                <li key={attribute.key}>
+                                    {attribute.value}: {attribute.value}
                                 </li>
                             )
                         })}
