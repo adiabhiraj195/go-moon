@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { useState } from 'react';
-import { ApeWorldContract, MarketContract } from '@/utils/ethersContract';
+import { ApeWorldContract, MarketContract } from '@/lib/ethersContract';
 import { useWallet } from '@/contexts/WalletProvide';
 import { CONTRACT_ADDRESS } from '@/constants/contractConfig';
 import { ethers } from 'ethers';

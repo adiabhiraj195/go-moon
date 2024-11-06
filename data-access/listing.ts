@@ -1,4 +1,5 @@
-import db from "@/utils/db";
+import db from "@/lib/db";
+import next from "next";
 
 export async function listNft({
     nftId,

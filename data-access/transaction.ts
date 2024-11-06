@@ -1,4 +1,4 @@
-import db from "@/utils/db"
+import db from "@/lib/db"
 
 export async function createTransaction({
     nftId,

@@ -44,8 +44,8 @@ export const authOptions: NextAuthOptions = {
     ],
     session: {
         strategy: 'jwt',
-        maxAge: 30 * 24 * 60 * 60,  // Set JWT session to 30 days (persistent session)
-        updateAge: 24 * 60 * 60,    // Update the session every 24 hours
+        maxAge: 30 * 24 * 60 * 60,
+        updateAge: 24 * 60 * 60,
     },
     secret: process.env.NEXTAUTH_JWT_SECRET,
     callbacks: {
@@ -54,6 +54,7 @@ export const authOptions: NextAuthOptions = {
             if (user) {
                 token.address = (user as { address?: string }).address;
                 token.id = user.id;
+                // console.log(token)
             }
             return token;
         },
@@ -66,6 +67,7 @@ export const authOptions: NextAuthOptions = {
                     address: token.address as string,  // Add the address to the user object in the session
                 };
             }
+            // console.log(token, session)
             return session;
         },
     },

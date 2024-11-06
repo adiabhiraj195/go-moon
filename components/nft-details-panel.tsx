@@ -30,16 +30,13 @@ export default function Nft_Details_Panel({ nft, metadata }: {
                 <p>
                     <strong>Owner: </strong> {nft?.owner.address}
                 </p>
-                <p>
-                    <strong>Contract address: </strong> {nft?.contractAddress}
-                </p>
                 <div>
                     <strong>Trait type: </strong>
                     <ol>
                         {metadata?.traits.map((attribute) => {
                             return (
                                 <li key={attribute.key}>
-                                    {attribute.value}: {attribute.value}
+                                    {attribute.key}: {attribute.value}
                                 </li>
                             )
                         })}

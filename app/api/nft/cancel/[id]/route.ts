@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/utils/auth";
+import { authOptions } from "@/lib/auth";
 import { updateListing } from "@/data-access/listing";
 import { updateListingOfNft, updateNftOwner } from "@/data-access/nft";
 import { createTransaction } from "@/data-access/transaction";

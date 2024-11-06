@@ -2,7 +2,7 @@
 import React from 'react'
 import { useWallet } from '@/contexts/WalletProvide'
 import { ethers } from 'ethers';
-import { MarketContract } from '@/utils/ethersContract';
+import { MarketContract } from '@/lib/ethersContract';
 
 import { Outfit, Staatliches } from "@next/font/google";
 

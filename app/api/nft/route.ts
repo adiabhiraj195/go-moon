@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/utils/auth";
+import { authOptions } from "@/lib/auth";
 import { addNftToDatabase, getNftByAddressAndTokenId } from "@/data-access/nft";
 
 export async function POST(req: NextRequest) {

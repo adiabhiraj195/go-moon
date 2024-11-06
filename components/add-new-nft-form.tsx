@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { ethers } from "ethers";
 import { useWallet } from "@/contexts/WalletProvide";
-import { ApeWorldContract } from "@/utils/ethersContract";
+import { ApeWorldContract } from "@/lib/ethersContract";
+import { revalidateTag } from "next/cache";
 
 const AddNewNftForm: React.FC = () => {
   const [nftAddress, setNftAddress] = useState<string>("");

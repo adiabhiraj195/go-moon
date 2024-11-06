@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { ethers } from 'ethers';
 import { useWallet } from '@/contexts/WalletProvide';
-import { ApeWorldContract, MarketContract } from '@/utils/ethersContract';
+import { ApeWorldContract, MarketContract } from '@/lib/ethersContract';
 import { CONTRACT_ADDRESS } from '@/constants/contractConfig';
 import { Outfit, Staatliches } from "@next/font/google";
 import Loading from './ui/Loading';

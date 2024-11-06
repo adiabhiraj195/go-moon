@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react";
-import { uploadImageToPinata, uploadMetadataToPinata } from "@/utils/pinata";
-import { NftContract } from "@/utils/ethersContract";
+import { uploadImageToPinata, uploadMetadataToPinata } from "@/lib/pinata";
+import { NftContract } from "@/lib/ethersContract";
 import { useWallet } from "@/contexts/WalletProvide";
 import Loading from "@/components/ui/Loading";
 
@@ -100,9 +100,6 @@ const CreateNFT = () => {
             alert(`nft is minted to ${account}`);
             console.log("checkpoint-3")
 
-            // add nft to assets
-
-
         } catch (error) {
             console.log(error);
             setLoading(false)
@@ -171,7 +168,7 @@ const CreateNFT = () => {
 
                     {/* Author */}
                     <div className="">
-                        <label className="block text-sm font-medium">Supply *</label>
+                        <label className="block text-sm font-medium">Author *</label>
                         <input
                             type="text"
                             name="author"
@@ -213,7 +210,7 @@ const CreateNFT = () => {
 
                     {/* Traits Section */}
                     <div className="">
-                        <h1 className="block text-sm font-medium">Traits</h1>
+                        <h1 className="block text-sm font-medium">Traits *</h1>
                         <p>Traits describe attributes of your item. They appear as filters inside your collection page and are also listed out inside your item page.</p>
                         {nftData.traits.map((trait, index) => (
                             <div key={index} className="flex space-x-2 mb-2">

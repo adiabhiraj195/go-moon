@@ -1,7 +1,7 @@
 import NFTCard from '@/components/ui/nft-card'
 import { getAllNftOfUser } from '@/data-access/nft';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/utils/auth';
+import { authOptions } from '@/lib/auth';
 import LinkProvider from '@/components/link';
 
 export default async function Page() {
