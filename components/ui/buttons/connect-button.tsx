@@ -10,7 +10,6 @@ const statliche = Staatliches({
     subsets: ['latin']
 })
 
-
 const outfit = Outfit({
     weight: ["400"],
     subsets: ['latin']
@@ -23,23 +22,25 @@ const ConnectWalletButton: React.FC = () => {
         <div>
             {isConnected ? (
                 <div className='flex items-center gap-2'>
-                    <div className='flex items-center gap-1'>
-                        <Image src={walletImg} className='w-4 h-4' alt="wallet" />
-                        <p className={`${outfit.className}`}>{account?.slice(0, 6)}...</p>
-                    </div>
+
                     <button
                         onClick={disconnectWallet}
-                        className={`${statliche.className} hover:bg-gradient-to-l hover:from-fuchsia-200 hover:to-sky-300 btn rounded-l text-2xl text-center`}
+                        className={`bg-gray1 px-4 py-2 hover:bg-gray3 cursor-pointer rounded-md text-lg text-center flex items-center`}
                     >
-                        Disconnect Wallet
+                        <div className='flex items-center gap-1 bg-transparent mr-4'>
+                            <Image src={walletImg} className='w-4 h-4' alt="wallet" />
+                            <p className={`bg-transparent`}>{account?.slice(0, 6)}...</p>
+                        </div>
+                        Disconnect
                     </button>
                 </div>
             ) : (
                 <div>
                     <button
                         onClick={connectWallet}
-                        className={`${statliche.className} hover:bg-gradient-to-l hover:from-fuchsia-200 hover:to-sky-300 btn rounded-l text-2xl text-center w-48`}
+                        className={`bg-gray1 px-4 py-2 hover:bg-gray3 cursor-pointer rounded-md text-lg text-center flex items-center`}
                     >
+                        <Image src={walletImg} className='w-4 h-4 mr-2' alt="wallet" />
                         Connect Wallet
                     </button>
                 </div>

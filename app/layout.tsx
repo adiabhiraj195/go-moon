@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`antialiased px-11`}
+        className={`antialiased `}
       >
         <Provider>
           <WalletProvider>
