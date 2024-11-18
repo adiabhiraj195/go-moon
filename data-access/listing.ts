@@ -33,7 +33,8 @@ export async function getAllActiveListings() {
                 nft: {
                     select: {
                         tokenId: true,
-                        imageURI: true
+                        imageURI: true,
+                        type: true
                     }
                 },
                 seller: {

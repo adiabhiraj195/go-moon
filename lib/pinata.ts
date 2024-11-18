@@ -20,6 +20,7 @@ export async function uploadMetadataToPinata(metadata: {
     traits: { key: string, value: string }[];
     externalLink: string;
     author?: string;
+    type: string;
 
 }) {
     try {

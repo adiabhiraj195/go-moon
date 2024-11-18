@@ -1,4 +1,3 @@
-import SellNFTForm from '@/components/SellNftForm';
 import WithdrawEth from '@/components/Money-withdraw';
 import { Staatliches } from "@next/font/google";
 import AddNewNftForm from '@/components/add-new-nft-form';

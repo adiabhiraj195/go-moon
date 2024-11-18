@@ -6,6 +6,7 @@ interface NftInterface {
     ownerId: string;
     metadataURI: string;
     imageURI: string;
+    type: string
 }
 
 export async function addNftToDatabase({
@@ -13,7 +14,8 @@ export async function addNftToDatabase({
     contractAddress,
     ownerId,
     metadataURI,
-    imageURI
+    imageURI,
+    type
 }: NftInterface) {
     try {
 
@@ -23,7 +25,8 @@ export async function addNftToDatabase({
                 contractAddress,
                 ownerId,
                 metadataURI,
-                imageURI
+                imageURI,
+                type
             }
         })
     } catch (error) {

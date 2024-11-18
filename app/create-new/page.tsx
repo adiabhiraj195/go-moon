@@ -14,6 +14,7 @@ interface NftDataInterface {
     externalLink: string;
     traits: { key: string, value: string }[];
     author: string;
+    type: string;
 }
 const CreateNFT = () => {
     const [nftData, setNftData] = useState<NftDataInterface>({
@@ -23,7 +24,8 @@ const CreateNFT = () => {
         file: null,
         externalLink: '',
         traits: [{ key: '', value: '' }],
-        author: ''
+        author: '',
+        type: ''
     });
     const [loading, setLoading] = useState(false);
 
@@ -85,8 +87,8 @@ const CreateNFT = () => {
                 description: nftData.description,
                 externalLink: nftData.externalLink,
                 traits: nftData.traits,
-                author: nftData.author
-
+                author: nftData.author,
+                type: nftData.type
             })
 
             //mint nft
@@ -206,6 +208,84 @@ const CreateNFT = () => {
                             placeholder="http://puff{market}.com"
                             className="w-full p-2 bg-gray-700 rounded-lg text-white"
                         />
+                    </div>
+
+                    {/* nft type */}
+                    <div className="">
+                        <label className="block text-sm font-medium">Type</label>
+
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <input
+                                    type="radio"
+                                    name="type"
+                                    value="art"
+                                    onChange={handleChange}
+                                />
+                                <label htmlFor="type">Art</label>
+                            </div>
+
+                            <div>
+                                <input
+                                    type="radio"
+                                    name="type"
+                                    value="gaming"
+                                    onChange={handleChange}
+                                />
+                                <label htmlFor="type">Gaming</label>
+                            </div>
+
+                            <div>
+                                <input
+                                    type="radio"
+                                    name="type"
+                                    value="membership"
+                                    onChange={handleChange}
+                                />
+                                <label htmlFor="type">Membership</label>
+                            </div>
+
+                            <div>
+                                <input
+                                    type="radio"
+                                    name="type"
+                                    value="pfps"
+                                    onChange={handleChange}
+                                />
+                                <label htmlFor="type">PFPs</label>
+                            </div>
+
+                            <div>
+                                <input
+                                    type="radio"
+                                    name="type"
+                                    value="photography"
+                                    onChange={handleChange}
+                                />
+                                <label htmlFor="type">Photography</label>
+                            </div>
+
+                            <div>
+                                <input
+                                    type="radio"
+                                    name="type"
+                                    value="music"
+                                    onChange={handleChange}
+                                />
+                                <label htmlFor="type">Music</label>
+                            </div>
+
+                            <div>
+                                <input
+                                    type="radio"
+                                    name="type"
+                                    value="other"
+                                    onChange={handleChange}
+                                    defaultChecked
+                                />
+                                <label htmlFor="type">Other</label>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Traits Section */}

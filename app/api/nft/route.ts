@@ -5,7 +5,7 @@ import { addNftToDatabase, getNftByAddressAndTokenId } from "@/data-access/nft";
 
 export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions);
-    const { tokenId, contractAddress, metadataURI, imageURI } = await req.json();
+    const { tokenId, contractAddress, metadataURI, imageURI, type } = await req.json();
 
     if (!session || !session?.user) {
         return NextResponse.json({ error: "unauthorised" }, { status: 401 });
@@ -20,7 +20,8 @@ export async function POST(req: NextRequest) {
                 contractAddress,
                 metadataURI,
                 imageURI,
-                ownerId: id as string
+                ownerId: id as string,
+                type
             })
             return NextResponse.json({ data: response }, { status: 200 });
         }
