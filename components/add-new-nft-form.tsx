@@ -54,7 +54,7 @@ const AddNewNftForm: React.FC = () => {
         console.log(await response.json());
       }
       setLoading(false);
-      router.push("/account")
+      router.refresh();
     } catch (error) {
       console.log(error);
     } finally {
@@ -71,7 +71,7 @@ const AddNewNftForm: React.FC = () => {
   };
 
   return (
-    <div className="min-w-full mx-auto p-6 rounded-lg shadow-md">
+    <div className="rounded-lg shadow-md w-2/5">
 
       {loading && <Loading />}
 
@@ -79,7 +79,7 @@ const AddNewNftForm: React.FC = () => {
         <div>
           <label
             htmlFor="nftAddress"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-md font-bold"
           >
             NFT Address:
           </label>
@@ -97,7 +97,7 @@ const AddNewNftForm: React.FC = () => {
         <div>
           <label
             htmlFor="tokenId"
-            className="block text-sm font-medium text-gray-700"
+            className="block  text-md font-bold"
           >
             Token ID:
           </label>

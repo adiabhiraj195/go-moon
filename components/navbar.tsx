@@ -13,7 +13,7 @@ const statliche = Staatliches({
 
 export default function Navbar() {
     return (
-        <div className='flex items-center justify-between py-2 px-8 w-full border-b border-gray-500' >
+        <div className='flex items-center justify-between py-2 px-8 w-full border-b border-gray-500 z-10' >
             <div className='flex items-center'>
 
                 <Link href={"/"} className='flex gap-2 items-center mr-4'>

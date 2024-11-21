@@ -28,19 +28,26 @@ const CreateNFT = () => {
         type: ''
     });
     const [loading, setLoading] = useState(false);
+    const [assetPreview, setAssetPreview] = useState<string | null>(null);
 
     const { signer, account } = useWallet();
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             setNftData({ ...nftData, file: e.target.files[0] });
-            console.log(nftData)
         }
     };
-    // useEffect(() => {
-    //     console.log(uploadImageToPinata(nftData?.file));
-    // }, [nftData])
-    console.log(nftData);
+
+    if (nftData.file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            setAssetPreview(e.target?.result as string);
+        };
+        reader.readAsDataURL(nftData.file);
+
+    } else {
+        console.log("file does not catched")
+    }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setNftData({ ...nftData, [e.target.name]: e.target.value });
@@ -106,20 +113,20 @@ const CreateNFT = () => {
             console.log(error);
             setLoading(false)
         }
-        // console.log(nftData);
+        console.log(nftData);
     };
 
     return (
         <div className="items-center text-white w-full px-5">
             {loading && <Loading />}
-            <h1 className="text-3xl font-bold my-3 mt-6">Create an NFT</h1>
-            <p className="font-light">Once your item is minted you will not be able to change any of its information.</p>
+            <h1 className="text-3xl font-bold my-3 mt-6">Mint Your NFT 💦</h1>
+            <p className="font-light text-gray-400">Once your item is minted you will not be able to change any of its information.</p>
             <form
-                className="flex justify-between w-full m-3 mt-6"
+                className="flex justify-between w-full m-3 mt-6 items-center"
                 onSubmit={handleSubmit}
             >
                 {/* File Upload Section */}
-                <div className="border-dashed border-2 border-gray-600 rounded-lg p-6 flex flex-col items-center justify-center w-2/5">
+                <div className="border-dashed border-2 border-gray-600 rounded-lg flex flex-col items-center justify-center w-1/2 h-100 mr-10 overflow-hidden bg-cover bg-center">
                     <input
                         type="file"
                         onChange={handleFileChange}
@@ -133,72 +140,72 @@ const CreateNFT = () => {
                             <div className="text-center">Drag and drop media or <span className="text-blue-500">Browse files</span></div>
                             <div className="text-sm text-gray-500">Max size: 50MB (JPG, PNG, GIF, SVG, MP4)</div>
                         </label> :
-                        <label htmlFor="fileInput" className="cursor-pointer">
-                            <div className="text-center">{nftData.file.name}</div>
-                        </label>
+                        <img src={assetPreview as string} alt="not loaded" className=""></img>
+
                     }
                 </div>
 
                 <div className="w-1/2">
                     {/* Name */}
-                    <div className="">
-                        <label className="block text-sm font-medium">Name *</label>
+                    <div className="my-2">
+                        <label className="block text-lg font-bold mb-2">Name *</label>
                         <input
                             type="text"
                             name="name"
                             value={nftData.name}
                             onChange={handleChange}
                             placeholder="Name your NFT"
-                            className="w-full p-2 bg-gray-700 rounded-lg text-white"
+                            className="w-full p-2 bg-gray1 rounded-lg text-white"
                             required
                         />
                     </div>
 
                     {/* Supply */}
-                    <div className="">
-                        <label className="block text-sm font-medium">Supply *</label>
+                    <div className="my-2">
+                        <label className="block text-lg font-bold mb-2">Supply *</label>
                         <input
                             type="number"
                             name="supply"
                             value={nftData.supply}
                             onChange={handleChange}
                             min={1}
-                            className="w-full p-2 bg-gray-700 rounded-lg text-white"
+                            className="w-full p-2 bg-gray1 rounded-lg text-white"
                             required
                         />
                     </div>
 
                     {/* Author */}
-                    <div className="">
-                        <label className="block text-sm font-medium">Author *</label>
+                    <div className="my-2">
+                        <label className="block ttext-lg font-bold mb-2">Author *</label>
                         <input
                             type="text"
                             name="author"
                             value={nftData.author}
                             onChange={handleChange}
                             placeholder="Original creator "
-                            className="w-full p-2 bg-gray-700 rounded-lg text-white"
+                            className="w-full p-2 bg-gray1 rounded-lg text-white"
                             required
                         />
                     </div>
 
 
                     {/* Description */}
-                    <div className="">
-                        <label className="block text-sm font-medium">Description *</label>
+                    <div className="my-2">
+                        <label className="block text-lg font-bold mb-2">Description *</label>
                         <textarea
                             name="description"
                             value={nftData.description}
                             onChange={handleChange}
                             placeholder="Enter a description"
-                            className="w-full p-2 bg-gray-700 rounded-lg text-white"
+                            className="w-full p-2 bg-gray1 rounded-lg text-white"
+                            rows={4}
                             required
                         />
                     </div>
 
                     {/* External link */}
-                    <div className="">
-                        <label className="block text-sm font-medium">External Link</label>
+                    <div className="my-2">
+                        <label className="block text-lg font-bold mb-2">External Link</label>
                         <input
                             type="text"
                             name="externalLink"
@@ -206,13 +213,13 @@ const CreateNFT = () => {
                             onChange={handleChange}
                             min={4}
                             placeholder="http://puff{market}.com"
-                            className="w-full p-2 bg-gray-700 rounded-lg text-white"
+                            className="w-full p-2 bg-gray1 rounded-lg text-white"
                         />
                     </div>
 
                     {/* nft type */}
-                    <div className="">
-                        <label className="block text-sm font-medium">Type</label>
+                    <div className="my-2">
+                        <label className="block text-lg font-bold mb-2">Type</label>
 
                         <div className="flex items-center justify-between">
                             <div>
@@ -222,7 +229,7 @@ const CreateNFT = () => {
                                     value="art"
                                     onChange={handleChange}
                                 />
-                                <label htmlFor="type">Art</label>
+                                <label htmlFor="type" className="font-semibold">Art</label>
                             </div>
 
                             <div>
@@ -232,7 +239,7 @@ const CreateNFT = () => {
                                     value="gaming"
                                     onChange={handleChange}
                                 />
-                                <label htmlFor="type">Gaming</label>
+                                <label htmlFor="type" className="font-semibold">Gaming</label>
                             </div>
 
                             <div>
@@ -242,7 +249,7 @@ const CreateNFT = () => {
                                     value="membership"
                                     onChange={handleChange}
                                 />
-                                <label htmlFor="type">Membership</label>
+                                <label htmlFor="type" className="font-semibold">Membership</label>
                             </div>
 
                             <div>
@@ -252,7 +259,7 @@ const CreateNFT = () => {
                                     value="pfps"
                                     onChange={handleChange}
                                 />
-                                <label htmlFor="type">PFPs</label>
+                                <label htmlFor="type" className="font-semibold">PFPs</label>
                             </div>
 
                             <div>
@@ -262,7 +269,7 @@ const CreateNFT = () => {
                                     value="photography"
                                     onChange={handleChange}
                                 />
-                                <label htmlFor="type">Photography</label>
+                                <label htmlFor="type" className="font-semibold">Photography</label>
                             </div>
 
                             <div>
@@ -272,7 +279,7 @@ const CreateNFT = () => {
                                     value="music"
                                     onChange={handleChange}
                                 />
-                                <label htmlFor="type">Music</label>
+                                <label htmlFor="type" className="font-semibold">Music</label>
                             </div>
 
                             <div>
@@ -283,15 +290,15 @@ const CreateNFT = () => {
                                     onChange={handleChange}
                                     defaultChecked
                                 />
-                                <label htmlFor="type">Other</label>
+                                <label htmlFor="type" className="font-semibold">Other</label>
                             </div>
                         </div>
                     </div>
 
                     {/* Traits Section */}
-                    <div className="">
-                        <h1 className="block text-sm font-medium">Traits *</h1>
-                        <p>Traits describe attributes of your item. They appear as filters inside your collection page and are also listed out inside your item page.</p>
+                    <div className="my-2">
+                        <h1 className="block text-lg font-bold mb-2">Traits *</h1>
+                        <p className="text-sm text-gray-400 mb-3">Traits describe attributes of your item. They appear as filters inside your collection page and are also listed out inside your item page.</p>
                         {nftData.traits.map((trait, index) => (
                             <div key={index} className="flex space-x-2 mb-2">
                                 <input
@@ -300,7 +307,7 @@ const CreateNFT = () => {
                                     value={trait.key}
                                     onChange={(e) => handleTraitChange(index, e)}
                                     placeholder="Trait name"
-                                    className="flex-1 p-2 bg-gray-700 rounded-lg text-white"
+                                    className="flex-1 p-2 bg-gray1 rounded-lg text-white"
                                 />
                                 <input
                                     type="text"
@@ -308,7 +315,7 @@ const CreateNFT = () => {
                                     value={trait.value}
                                     onChange={(e) => handleTraitChange(index, e)}
                                     placeholder="Trait value"
-                                    className="flex-1 p-2 bg-gray-700 rounded-lg text-white"
+                                    className="flex-1 p-2 bg-gray1 rounded-lg text-white"
                                 />
                                 <button
                                     type="button"
@@ -332,8 +339,7 @@ const CreateNFT = () => {
             </form>
 
             {/* Create Button */}
-            <div className="w-full flex justify-end items-center bottom-0 h-10 z-3 right-0 border-t border-gray-700 py-8 px-20">
-
+            <div className="w-full flex justify-end items-center bottom-0 right-0 border-t border-gray-700 py-8 px-14">
                 <button
                     onClick={handleSubmit}
                     className=" bg-blue-500 text-white py-2 px-5 rounded-lg hover:bg-blue-600 transition h-fit font-bold"
