@@ -5,7 +5,7 @@ import Navbar from "@/components/navbar";
 import { WalletProvider } from "@/contexts/WalletProvide";
 import { Apolloprovider } from "@/apolloProvider";
 import { Provider } from "./provider";
-
+import Footer from "@/components/footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -27,6 +27,7 @@ export default function RootLayout({
             <Apolloprovider>
               <Navbar />
               {children}
+              <Footer />
             </Apolloprovider>
           </WalletProvider>
         </Provider>

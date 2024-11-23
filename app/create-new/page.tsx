@@ -117,12 +117,12 @@ const CreateNFT = () => {
     };
 
     return (
-        <div className="items-center text-white w-full px-5">
+        <div className="items-center text-white w-full px-8">
             {loading && <Loading />}
-            <h1 className="text-3xl font-bold my-3 mt-6">Mint Your NFT 💦</h1>
+            <h1 className="text-3xl font-bold my-3 mt-6">Mint New NFT 💦</h1>
             <p className="font-light text-gray-400">Once your item is minted you will not be able to change any of its information.</p>
             <form
-                className="flex justify-between w-full m-3 mt-6 items-center"
+                className="flex justify-between w-full my-3 mt-6 items-center"
                 onSubmit={handleSubmit}
             >
                 {/* File Upload Section */}
