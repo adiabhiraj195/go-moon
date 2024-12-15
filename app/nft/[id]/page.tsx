@@ -75,8 +75,8 @@ export default function NftPage() {
                             Traits
                         </div>
                         <div className="p-4 py-5 text-sm text-gray-300 flex flex-wrap justify-between">
-                            {metadata?.traits.map((trait) => (
-                                <div className="flex flex-col justify-center align-middle items-center bg-gray2 rounded-md p-3 w-36">
+                            {metadata?.traits.map((trait, index) => (
+                                <div key={index} className="flex flex-col justify-center align-middle items-center bg-gray2 rounded-md p-3 w-36">
                                     <p className="text-gray-300 font-bold">{trait.key}</p>
                                     <p>{trait.value}</p>
                                 </div>

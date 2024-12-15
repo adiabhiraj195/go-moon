@@ -33,7 +33,7 @@ export default async function Page() {
                     })}
                 </div> :
                 <h1 className='flex justify-center font-bold text-lg my-3 h-full'>
-                    You haven't added any NFT yet
+                    You haven&apos;t added any NFT yet
                 </h1>
             }
             <WithdrawEth />
