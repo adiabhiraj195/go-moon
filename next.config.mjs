@@ -5,6 +5,16 @@ const nextConfig = {
     NEXT_APOLLO_URL: process.env.NEXT_APOLLO_URL,
     PINATA_JWT: process.env.PINATA_JWT,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "sapphire-keen-aardvark-438.mypinata.cloud",
+        port: "",
+        // pathname: "/account123/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

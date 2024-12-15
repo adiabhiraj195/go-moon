@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useWallet } from "@/contexts/WalletProvide";
 import { ApeWorldContract } from "@/lib/ethersContract";
 import Loading from "./ui/Loading";
-import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 const AddNewNftForm: React.FC = () => {

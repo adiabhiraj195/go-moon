@@ -1,10 +1,9 @@
-import NFTCard from "@/components/ui/nft-card";
+
 import { getAllActiveListings } from "@/data-access/listing";
-import LinkProvider from "@/components/link";
 import HeroSection from "@/components/hero";
 import HomeFilter from "@/components/home-filter";
 import NftListCard from "@/components/ui/nft-list-card";
-import Link from "next/link";
+
 
 export default async function Home() {
   const listings = await getAllActiveListings();
@@ -31,7 +30,7 @@ export default async function Home() {
                 </tr>
               </thead>
 
-              {/* data map here */}
+              {/* nft list maped here */}
               <tbody>
                 {
                   listings?.map((item: any, index) => (
@@ -50,23 +49,6 @@ export default async function Home() {
             </table>
           </div>
         </div>
-
-        {/* <div className="flex gap-4">
-
-          {listings?.map((item: any) => {
-            return (
-              <LinkProvider href={`/nft/${item.nftId}`} key={item.id}>
-                <NFTCard
-                  imageUrl={item?.nft.imageURI}
-                  tokenId={item.nft.tokenId}
-                  price={item.price}
-                  seller={item.seller.address}
-                />
-              </LinkProvider>
-            )
-          })}
-
-        </div> */}
       </div>
     </div>
   );

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useWallet } from '@/contexts/WalletProvide'
 import { ethers } from "ethers";
 import { MarketContract } from '@/lib/ethersContract';
-
 import { Outfit, Staatliches } from "@next/font/google";
 import Loading from './ui/Loading';
 
@@ -11,8 +10,6 @@ const statliche = Staatliches({
     weight: ["400"],
     subsets: ['latin']
 })
-
-
 const outfit = Outfit({
     weight: ["400"],
     subsets: ['latin']
@@ -70,8 +67,8 @@ export default function WithdrawEth() {
     }, [isConnected])
 
     return (
-        <div className='self-end flex flex-col'>
-            <p className={`${outfit.className} self-end mx-4`}>
+        <div className='flex items-center justify-end'>
+            <p className={`${outfit.className} mx-4`}>
                 <strong>Balance: </strong>{balance != "" ? balance : 0}
             </p>
             <button

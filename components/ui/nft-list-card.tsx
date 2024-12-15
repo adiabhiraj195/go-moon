@@ -22,7 +22,7 @@ export default function NftListCard({
         <tr key={rank} className="border-b border-gray-800 hover:bg-gray3 cursor-pointer rounded-xl">
             <td className="py-3 px-4">{rank}</td>
             <td className="py-3 px-4 w-20 h-20 flex items-center bg-cover">
-                <Link href={`/nft/${id}`} className="h-full w-full flex items-center">
+                <Link href={`/nft/${id}`} className="h-full w-full flex items-center hover:underline">
                     <img
                         src={logo}
                         alt={logo}

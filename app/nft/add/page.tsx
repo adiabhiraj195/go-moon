@@ -11,14 +11,17 @@ const statliche = Staatliches({
 
 
 export default async function AddNftPage() {
-    const session = await getServerSession(authOptions);
-    if (session === null) return;
-    const listedNft = await getAllNftOfUser(session.user.id as string);
+    const session = await getServerSession(authOptions)
+    if (session === null) {
+        alert("Connect your wallet")
+        return
+    };
+    const listedNft = await getAllNftOfUser(session.user.id as string)
     // const listedNft = undefined
 
     // console.log(listedNft)
     return (
-        <div className="container flex justify-center items-center h-screen">
+        <div className="container flex justify-center items-center h-screen relative">
             <div className=' h-full'>
 
                 {listedNft === undefined ?
