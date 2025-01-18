@@ -25,9 +25,7 @@ export default function RootLayout({
         <Provider>
           <WalletProvider>
             <Apolloprovider>
-              <Navbar />
               {children}
-              <Footer />
             </Apolloprovider>
           </WalletProvider>
         </Provider>

@@ -55,6 +55,7 @@ model NFT {
   updatedAt       DateTime      @updatedAt
   type            String
 
+  auction     Auction?
   Transaction Transaction[]
 }
 
@@ -100,4 +101,16 @@ enum ListingStatus {
   ACTIVE
   SOLD
   CANCELED
+}
+
+model Auction {
+  id                 String  @id @default(uuid())
+  nftContractAddress String
+  tokenId            String
+  erc20Token         String?
+  minPrice           String
+  buyNowPrice        String
+  auctionBidPeriod   String
+  nftId              String  @unique
+  nft                NFT     @relation(fields: [nftId], references: [id])
 }

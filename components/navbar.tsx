@@ -21,11 +21,8 @@ export default function Navbar() {
                     <h1 className={`${statliche.className} text-2xl italic font-light border-r pr-3 border-gray-500 `}>{`PUFF {MARKET}`}</h1>
                 </Link>
 
-                <Link href="/create-new" className='mx-3 font-bold hover:text-gray-400'>
+                <Link href="/create" className='mx-3 font-bold hover:text-gray-400'>
                     Create
-                </Link>
-                <Link href="/nft/add" className='mx-3 font-bold hover:text-gray-400'>
-                    Add_Nft
                 </Link>
                 <Link href="/auction" className='mx-3 font-bold hover:text-gray-400'>
                     Auctions

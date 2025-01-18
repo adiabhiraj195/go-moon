@@ -36,16 +36,22 @@ export const WalletProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         const autoConnect = async () => {
             if (session?.user?.address && typeof window.ethereum !== 'undefined') {
                 const provider = new ethers.BrowserProvider(window.ethereum as any);
+                const signer = await provider.getSigner();
                 const accounts = await provider.send('eth_accounts', []);
+                const walletAddress = await signer.getAddress();
+
                 if (accounts.length > 0 && accounts[0].toLowerCase() === session.user.address.toLowerCase()) {
                     setAccount(accounts[0]);
                 }
+                setProvider(provider);
+                setSigner(signer);
+                setAccount(walletAddress);
                 console.log(account)
                 setIsConnected(true)
             }
         };
         autoConnect();
-    }, [session]);
+    }, [session,]);
 
     const connectWallet = async () => {
         try {
@@ -54,9 +60,9 @@ export const WalletProvider: React.FC<{ children: ReactNode }> = ({ children }) 
                 return;
             }
 
-            const web3Provider = new ethers.BrowserProvider(window.ethereum);
-            await web3Provider.send("eth_requestAccounts", []); // Request wallet connection
-            const signer = await web3Provider.getSigner();
+            const provider = new ethers.BrowserProvider(window.ethereum);
+            await provider.send("eth_requestAccounts", []); // Request wallet connection
+            const signer = await provider.getSigner();
             const walletAddress = await signer.getAddress();
             // console.log(web3Provider.getNetwork())
             const res = await fetch('/api/auth/nonce', { method: 'POST' });
@@ -77,7 +83,7 @@ export const WalletProvider: React.FC<{ children: ReactNode }> = ({ children }) 
                 console.log('Authentication failed');
             }
 
-            setProvider(web3Provider);
+            setProvider(provider);
             setSigner(signer);
             setAccount(walletAddress);
             setIsConnected(true);

@@ -12,6 +12,7 @@ const statliche = Staatliches({
 
 export default async function AddNftPage() {
     const session = await getServerSession(authOptions)
+    console.log(session)
     if (session === null) {
         alert("Connect your wallet")
         return

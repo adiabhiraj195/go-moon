@@ -3,22 +3,13 @@
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react";
 import Loading from "@/components/ui/Loading";
-import { Staatliches } from "@next/font/google";
 import { NftInterface, NftMetadataInteface } from "@/types/nft-types";
-import BuyButton from "@/components/ui/buttons/Buy-nft-button";
-import Nft_Details_Panel from "@/components/nft-details-panel";
-import Cancel_Listing_Button from "@/components/ui/buttons/cancel-listing-button";
-import Nft_Transaction from "@/components/nft-transations";
 import Image from "next/image";
 import ListingHeader from "@/components/listing-header";
 import SaleCard from "@/components/sale-card";
 import PriceHistory from "@/components/ui/price-history";
 import TransactionHistory from "@/components/transaction-history";
 
-const statliche = Staatliches({
-    weight: ["400"],
-    subsets: ['latin']
-})
 
 export default function NftPage() {
     const { id } = useParams();

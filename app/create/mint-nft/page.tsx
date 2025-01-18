@@ -5,6 +5,8 @@ import { uploadImageToPinata, uploadMetadataToPinata } from "@/lib/pinata";
 import { NftContract } from "@/lib/ethersContract";
 import { useWallet } from "@/contexts/WalletProvide";
 import Loading from "@/components/ui/Loading";
+import FlottingBackButton from "@/components/ui/floting-back-button";
+import ConnectWalletButton from "@/components/ui/buttons/connect-button";
 
 interface NftDataInterface {
     name: string;
@@ -118,6 +120,12 @@ const CreateNFT = () => {
 
     return (
         <div className="items-center text-white w-full px-8">
+            <div className="w-full relative py-5 flex justify-end items-center ">
+                <FlottingBackButton />
+
+                <ConnectWalletButton />
+            </div>
+
             {loading && <Loading />}
             <h1 className="text-3xl font-bold my-3 mt-6">Mint New NFT 💦</h1>
             <p className="font-light text-gray-400">Once your item is minted you will not be able to change any of its information.</p>

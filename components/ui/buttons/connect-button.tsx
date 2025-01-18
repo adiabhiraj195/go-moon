@@ -4,6 +4,7 @@ import { useWallet } from '@/contexts/WalletProvide';
 import walletImg from '../../assets/wallet.png'
 import Image from 'next/image';
 import { Staatliches, Outfit } from '@next/font/google'
+import { useEffect } from 'react';
 
 const statliche = Staatliches({
     weight: ["400"],
@@ -17,6 +18,7 @@ const outfit = Outfit({
 
 const ConnectWalletButton: React.FC = () => {
     const { account, connectWallet, disconnectWallet, isConnected } = useWallet();
+
 
     return (
         <div>

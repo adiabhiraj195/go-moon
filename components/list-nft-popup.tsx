@@ -24,8 +24,6 @@ export default function List_Nft_Popup({
   const [price, setPrice] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false)
 
-  const closeModal = () => setIsOpen(false);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isConnected) return
@@ -56,7 +54,7 @@ export default function List_Nft_Popup({
     } finally {
 
       setLoading(false);
-      closeModal();
+      setIsOpen(false);
     }
   };
   return (
@@ -85,7 +83,7 @@ export default function List_Nft_Popup({
             <button
               type="button"
               className="mr-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-              onClick={closeModal}
+              onClick={() => setIsOpen(false)}
             >
               Cancel
             </button>
