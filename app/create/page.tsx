@@ -25,7 +25,7 @@ export default function Page() {
                             <div>
                                 <h2 className="text-xl font-semibold">Mint New Nft</h2>
                                 <p className="text-gray-400 text-sm mt-2">
-                                    Create a new NFT. Your items will display immediately. List for sale when you're ready.
+                                    Create a new NFT. Your items will display immediately. List for sale when you&apos;re ready.
                                 </p>
                             </div>
                             <span className="text-gray-500 text-2xl">&rarr;</span>
